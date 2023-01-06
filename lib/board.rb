@@ -11,10 +11,11 @@ require './lib/pieces/pawn'
 
 # Contains the win condition, constraints and board data
 class Board
-  attr_reader :positions
-  
+  attr_accessor :positions
+
   def initialize
     @positions = Array.new(8){ Array.new(8, '-')}
+    place_all_pieces
   end
 
   def place_all_pieces
@@ -101,7 +102,3 @@ class Board
   end
 
 end
-
-board = Board.new
-board.place_all_pieces
-board.print_board

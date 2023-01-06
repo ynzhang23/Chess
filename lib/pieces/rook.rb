@@ -5,8 +5,9 @@ class Rook
   attr_reader :symbol, :next_moves
   attr_accessor :current_position
 
-  def initialize(start_position, symbol)
+  def initialize(start_position, symbol, color)
     @symbol = symbol
+    @color = color
     @start_position = start_position
     @current_position = start_position
     @next_moves = []
@@ -76,13 +77,13 @@ end
 # White rook
 class WhiteRook < Rook
   def initialize(rank, file)
-    super([rank, file], '♜')
+    super([rank, file], '♜', 'white')
   end
 end
 
 # Black rook
 class BlackRook < Rook
   def initialize(rank, file)
-    super([rank, file], '♖')
+    super([rank, file], '♖', 'black')
   end
 end

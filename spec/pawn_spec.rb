@@ -45,9 +45,9 @@ describe WhitePawn do
 
     context 'When there is a piece diagonal left' do
       subject(:pawn_to_take) { WhitePawn.new(2, 0) }
+      subject(:temp_pawn) { WhitePawn.new(1, 1) }
 
       it 'Returns the valid move' do
-        temp_pawn = board.positions[1][1]
         board.positions[2][0] = pawn_to_take
         temp_pawn.update_next_moves(board)
         expect(temp_pawn.next_moves).to eql([[2, 1], [3, 1], [2, 0]])

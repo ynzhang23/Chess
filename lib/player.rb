@@ -25,6 +25,22 @@ class Player
     @player_color = 'black'
   end
 
+  # Ask player for new location for selected piece and output resulting new board
+  def move_piece(board)
+    old_position = select_piece_to_move(board)
+    new_position = ask_for_notation('move')
+    piece = board.positions[old_position[0]][old_position[1]]
+
+    until move_allowed?(piece, new_position)
+      puts 'Move is not allowed. Try again'
+      # start_position = select_piece_to_move(board)
+      new_position = ask_for_notation('move')
+      piece = board.positions[old_position[0]][old_position[1]]
+    end
+
+    piece.update_position(board, new_position, old_position)
+  end
+
   # Confirm player's choice of piece to be moved and return position
   def select_piece_to_move(board)
     board.print_board
@@ -41,6 +57,8 @@ class Player
         puts "\n\e[1;31m Chosen position is empty. Try again.\e[0m"
       when 'wrong color'
         puts "\n\e[1;31mChosen piece does not belong to you. Try again\e[0m"
+      when 'no valid moves'
+        puts "\n\e[1;31mChosen piece does not have any possible moves. Try again\e[0m"
       end
 
       board.print_board
@@ -75,14 +93,15 @@ class Player
 
     return 'empty' if selected_space == '-'
     return 'wrong color' unless selected_space.color == @player_color
+    return 'no valid moves' if selected_space.next_moves == []
 
     true
   end
 
   # Repeat until player entered notation is correct, returns position array
   def ask_for_notation(action)
-    puts "#{@name}, please select a piece to move (eg. a3): " if action == 'select'
-    puts "#{@name}, please select the new square (eg. a3): " if action == 'move'
+    puts "#{@name}, please select a piece to move (eg. A3): " if action == 'select'
+    puts "#{@name}, where would you like to move the piece (eg. A3): " if action == 'move'
     # Ask for move until a valid chess notation is selected
     notation = gets.chomp 
     until valid_notation?(notation)
@@ -129,3 +148,8 @@ class Player
     false
   end
 end
+
+board = Board.new
+player = Player.new
+player.update_white_player_name
+player.move_piece(board)

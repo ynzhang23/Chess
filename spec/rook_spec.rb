@@ -125,4 +125,34 @@ describe WhiteRook do
       end
     end
   end
+
+  describe '#update_position' do
+    context 'When you move rooks from A1 to A3' do
+      before do
+        allow(board).to receive(:puts)
+      end
+
+      it "Changes rook's current position" do
+        rook.update_position(board, [2, 0], [0, 0])
+        expect(rook.current_position).to eql([2, 0])
+      end
+
+      it "Updates rook's next_moves" do
+        board.positions[3][0] = 'B'
+        rook.update_position(board, [2, 0], [0, 0])
+        answer = []
+        7.times do |num|
+          num += 1
+          answer.push([2, num])
+        end
+        expect(rook.next_moves).to eql(answer)
+      end
+
+      it "Changes rook's old position to empty" do
+        rook.update_position(board, [2, 0], [0, 0])
+        old_position = board.positions[0][0]
+        expect(old_position).to eql("-")
+      end
+    end
+  end
 end

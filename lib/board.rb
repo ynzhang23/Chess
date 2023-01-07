@@ -27,7 +27,7 @@ class Board
     place_all_queens
     place_all_kings
     place_all_pawns
-    #update_all_pieces_next_moves
+    update_all_pieces_next_moves
   end
 
   # Updates next possible moves for all pieces
@@ -35,7 +35,6 @@ class Board
     @positions.each do |row|
       row.each do |piece|
         next if piece == '-'
-
         piece.update_next_moves(self)
       end
     end
@@ -115,5 +114,3 @@ class Board
     end
   end
 end
-
-board = Board.new

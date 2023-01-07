@@ -24,10 +24,10 @@ describe WhitePawn do
     end
 
     context 'When it has already moved' do
-      subject(:temp_pawn) { WhitePawn.new(3, 3) }
+      subject(:temp_pawn) { WhitePawn.new(2, 1) }
 
       it 'Returns an array with valid moves' do
-        answer = [[4, 3]]
+        answer = [[3, 1]]
         temp_pawn.update_next_moves(board)
         expect(temp_pawn.next_moves).to eql(answer)
       end

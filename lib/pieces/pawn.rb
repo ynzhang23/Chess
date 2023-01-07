@@ -24,18 +24,25 @@ class Pawn
 
   # Updates @next_moves with current location
   def update_next_moves(board)
+    @next_moves.clear
     rank = @current_position[0]
     file = @current_position[1]
     # One ahead
     @next_moves.push([rank + 1, file]) if valid_move?(rank + 1, file) && board.positions[rank + 1][file] == '-'
+
     # Two ahead when yet to move
     if rank == 1 && board.positions[rank + 1][file] == '-' && board.positions[rank + 2][file] == '-'
       @next_moves.push([rank + 2, file])
     end
-    # When taking diagonal left
-    @next_moves.push([rank + 1, file - 1]) if valid_move?(rank +  1, file - 1) && board.positions[rank - 1][file - 1] != '-'
-    # When taking diagonal right
-    @next_moves.push([rank + 1, file + 1]) if valid_move?(rank +  1, file + 1) && board.positions[rank + 1][file + 1] != '-'
+
+    # Check diagonal left
+    if valid_move?(rank +  1, file - 1) && board.positions[rank + 1][file - 1] != '-'
+      @next_moves.push([rank + 1, file - 1])
+    end
+    # Check diagonal right
+    if valid_move?(rank +  1, file + 1) && board.positions[rank + 1][file + 1] != '-'
+      @next_moves.push([rank + 1, file + 1])
+    end
   end
 
   # Test if space is on board

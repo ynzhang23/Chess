@@ -16,10 +16,9 @@ class Board
   def initialize
     @positions = Array.new(8){ Array.new(8, '-')}
     place_all_pieces
-    # update_all_pieces_next_moves
+    update_all_pieces_next_moves
   end
 
-  # INCOMPLETE
   def place_all_pieces
     place_all_rooks
     place_all_knights

@@ -44,13 +44,13 @@ class Bishop
     rank = @current_position[0]
     file = @current_position[1]
     # Up
-    openings.push('up_left') if board.positions[rank + 1][file - 1] == '-' && (rank + 1) < 7 && (file - 1) >= 0
+    openings.push('up_left') if board.positions[rank + 1][file - 1] == '-' && (rank + 1) <= 7 && (file - 1) >= 0
     # Down
-    openings.push('up_right') if board.positions[rank + 1][file + 1] == '-' && (rank + 1) >= 0 && (file + 1) < 7
+    openings.push('up_right') if board.positions[rank + 1][file + 1] == '-' && (rank + 1) >= 0 && (file + 1) <= 7
     # Left
     openings.push('down_left') if board.positions[rank - 1][file - 1] == '-' && (file - 1) >= 0 && (rank - 1) >= 0
     # Right
-    openings.push('down_right') if board.positions[rank - 1][file + 1] == '-' && (file + 1) < 7 && (rank - 1) >= 0
+    openings.push('down_right') if board.positions[rank - 1][file + 1] == '-' && (file + 1) <= 7 && (rank - 1) >= 0
     openings
   end
 

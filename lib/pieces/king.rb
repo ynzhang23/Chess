@@ -27,7 +27,7 @@ class King
     rank = @current_position[0]
     file = @current_position[1]
     # Up
-    if (rank + 1) < 7
+    if (rank + 1) <= 7
       @next_moves.push([rank + 1, file]) if board.positions[rank + 1][file] == '-'
     end
     # Down
@@ -39,15 +39,15 @@ class King
       @next_moves.push([rank, file - 1]) if board.positions[rank][file - 1] == '-'
     end
     # Right
-    if (file + 1) < 7
+    if (file + 1) <= 7
       @next_moves.push([rank, file + 1]) if board.positions[rank][file + 1] == '-'
     end
     # Up Left
-    if (rank + 1) < 7 && (file - 1) >= 0
+    if (rank + 1) <= 7 && (file - 1) >= 0
       @next_moves.push([rank + 1, file - 1]) if board.positions[rank + 1][file - 1] == '-'
     end
     # Up Right
-    if (rank + 1) >= 0 && (file + 1) < 7
+    if (rank + 1) >= 0 && (file + 1) <= 7
       @next_moves.push([rank + 1, file + 1]) if board.positions[rank + 1][file + 1] == '-'
     end
     # Down Left
@@ -55,7 +55,7 @@ class King
       @next_moves.push([rank - 1, file - 1]) if board.positions[rank - 1][file - 1] == '-'
     end
     # Down Right
-    if (file + 1) < 7 && (rank - 1) >= 0
+    if (file + 1) <= 7 && (rank - 1) >= 0
       @next_moves.push([rank - 1, file + 1]) if board.positions[rank - 1][file + 1] == '-'
     end
   end

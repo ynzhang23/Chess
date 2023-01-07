@@ -41,13 +41,13 @@ class Rook
     rank = @current_position[0]
     file = @current_position[1]
     # Up
-    openings.push('up') if board.positions[rank + 1][file] == '-' && (rank + 1) < 7
+    openings.push('up') if board.positions[rank + 1][file] == '-' && (rank + 1) <= 7
     # Down
     openings.push('down') if board.positions[rank - 1][file] == '-' && (rank - 1) >= 0
     # Left
     openings.push('left') if board.positions[rank][file - 1] == '-' && (file - 1) >= 0
     # Right
-    openings.push('right') if board.positions[rank][file + 1] == '-' && (file + 1) < 7
+    openings.push('right') if board.positions[rank][file + 1] == '-' && (file + 1) <= 7
     openings
   end
 

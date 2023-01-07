@@ -44,13 +44,13 @@ class Bishop
     rank = @current_position[0]
     file = @current_position[1]
     # Up
-    openings.push('up_left') if board.positions[rank + 1][file - 1] == '-' && (rank + 1) <= 7 && (file - 1) >= 0
+    openings.push('up_left') if valid_move?(rank + 1, file - 1) && board.positions[rank + 1][file - 1] == '-'
     # Down
-    openings.push('up_right') if board.positions[rank + 1][file + 1] == '-' && (rank + 1) >= 0 && (file + 1) <= 7
+    openings.push('up_right') if valid_move?(rank + 1, file + 1) && board.positions[rank + 1][file + 1] == '-'
     # Left
-    openings.push('down_left') if board.positions[rank - 1][file - 1] == '-' && (file - 1) >= 0 && (rank - 1) >= 0
+    openings.push('down_left') if valid_move?(rank - 1, file - 1) && board.positions[rank - 1][file - 1] == '-'
     # Right
-    openings.push('down_right') if board.positions[rank - 1][file + 1] == '-' && (file + 1) <= 7 && (rank - 1) >= 0
+    openings.push('down_right') if valid_move?(rank - 1, file + 1) && board.positions[rank - 1][file + 1] == '-'
     openings
   end
 
@@ -58,7 +58,7 @@ class Bishop
   def explore_up_left(board, rank, file)
     rank += 1
     file -= 1
-    while board.positions[rank][file] == '-' && rank <= 7 && file >= 0
+    while valid_move?(rank, file) && board.positions[rank][file] == '-'
       @next_moves.push([rank, file])
       rank += 1
       file -= 1
@@ -69,7 +69,7 @@ class Bishop
   def explore_up_right(board, rank, file)
     rank += 1
     file += 1
-    while board.positions[rank][file] == '-' && rank <= 7 && file <= 7
+    while valid_move?(rank, file) && board.positions[rank][file] == '-'
       @next_moves.push([rank, file])
       rank += 1
       file += 1
@@ -81,7 +81,7 @@ class Bishop
     rank -= 1
     file -= 1
     # Move diagonally down right until a block
-    while board.positions[rank][file] == '-' && file >= 0 && rank >= 0
+    while valid_move?(rank, file) && board.positions[rank][file] == '-'
       @next_moves.push([rank, file])
       rank -= 1
       file -= 1
@@ -92,11 +92,17 @@ class Bishop
   def explore_down_right(board, rank, file)
     rank -= 1
     file += 1
-    while board.positions[rank][file] == '-' && file >= 0 && file <= 7
+    while valid_move?(rank, file) && board.positions[rank][file] == '-'
       @next_moves.push([rank, file])
       rank -= 1
       file += 1
     end
+  end
+
+  # Test if space is on board
+  def valid_move?(rank, file)
+    return false if rank < 0 || rank > 7 || file < 0 || file > 7
+    true
   end
 end
 

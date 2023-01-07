@@ -27,37 +27,43 @@ class King
     rank = @current_position[0]
     file = @current_position[1]
     # Up
-    if (rank + 1) <= 7
+    if valid_move?(rank + 1, file)
       @next_moves.push([rank + 1, file]) if board.positions[rank + 1][file] == '-'
     end
     # Down
-    if (rank - 1) >= 0
+    if valid_move?(rank - 1, file)
       @next_moves.push([rank - 1, file]) if board.positions[rank - 1][file] == '-'
     end
     # Left
-    if (file - 1) >= 0
+    if valid_move?(rank, file - 1)
       @next_moves.push([rank, file - 1]) if board.positions[rank][file - 1] == '-'
     end
     # Right
-    if (file + 1) <= 7
+    if valid_move?(rank, file + 1)
       @next_moves.push([rank, file + 1]) if board.positions[rank][file + 1] == '-'
     end
     # Up Left
-    if (rank + 1) <= 7 && (file - 1) >= 0
+    if valid_move?(rank + 1, file - 1)
       @next_moves.push([rank + 1, file - 1]) if board.positions[rank + 1][file - 1] == '-'
     end
     # Up Right
-    if (rank + 1) >= 0 && (file + 1) <= 7
+    if valid_move?(rank + 1, file + 1)
       @next_moves.push([rank + 1, file + 1]) if board.positions[rank + 1][file + 1] == '-'
     end
     # Down Left
-    if (file - 1) >= 0 && (rank - 1) >= 0
+    if valid_move?(rank - 1, file - 1)
       @next_moves.push([rank - 1, file - 1]) if board.positions[rank - 1][file - 1] == '-'
     end
     # Down Right
-    if (file + 1) <= 7 && (rank - 1) >= 0
+    if valid_move?(rank - 1, file + 1)
       @next_moves.push([rank - 1, file + 1]) if board.positions[rank - 1][file + 1] == '-'
     end
+  end
+
+  # Test if space is on board
+  def valid_move?(rank, file)
+    return false if rank < 0 || rank > 7 || file < 0 || file > 7
+    true
   end
 end
 

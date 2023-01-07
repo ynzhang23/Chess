@@ -45,14 +45,14 @@ class Queen
     openings = []
     rank = @current_position[0]
     file = @current_position[1]
-    openings.push('up') if board.positions[rank + 1][file] == '-' && (rank + 1) < 7
+    openings.push('up') if board.positions[rank + 1][file] == '-' && (rank + 1) <= 7
     openings.push('down') if board.positions[rank - 1][file] == '-' && (rank - 1) >= 0
     openings.push('left') if board.positions[rank][file - 1] == '-' && (file - 1) >= 0
-    openings.push('right') if board.positions[rank][file + 1] == '-' && (file + 1) < 7
-    openings.push('up_left') if board.positions[rank + 1][file - 1] == '-' && (rank + 1) < 7 && (file - 1) >= 0
-    openings.push('up_right') if board.positions[rank + 1][file + 1] == '-' && (rank + 1) >= 0 && (file + 1) < 7
+    openings.push('right') if board.positions[rank][file + 1] == '-' && (file + 1) <= 7
+    openings.push('up_left') if board.positions[rank + 1][file - 1] == '-' && (rank + 1) <= 7 && (file - 1) >= 0
+    openings.push('up_right') if board.positions[rank + 1][file + 1] == '-' && (rank + 1) >= 0 && (file + 1) <= 7
     openings.push('down_left') if board.positions[rank - 1][file - 1] == '-' && (file - 1) >= 0 && (rank - 1) >= 0
-    openings.push('down_right') if board.positions[rank - 1][file + 1] == '-' && (file + 1) < 7 && (rank - 1) >= 0
+    openings.push('down_right') if board.positions[rank - 1][file + 1] == '-' && (file + 1) <= 7 && (rank - 1) >= 0
     openings
   end
 

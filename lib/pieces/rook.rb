@@ -2,17 +2,27 @@
 
 # Template and shared method for a rook
 class Rook
-  attr_reader :symbol, :next_moves
+  attr_reader :symbol, :next_moves, :color
   attr_accessor :current_position
 
-  def initialize(start_position, symbol, color)
+  def initialize(start, symbol, color)
     @symbol = symbol
     @color = color
-    @start_position = start_position
-    @current_position = start_position
+    @start_position = start
+    @current_position = start
     @next_moves = []
   end
 
+  # Update piece location on board
+  def update_position(board, new_position, old_position)
+    @current_position = new_position
+    board.positions[new_position[0]][new_position[1]] = self
+    board.positions[old_position[0]][old_position[1]] = '-'
+    update_next_moves(board)
+    board.print_board
+  end
+
+  # Updates @next_moves with current location
   def update_next_moves(board)
     openings = find_openings(board)
     rank = @current_position[0]
@@ -24,6 +34,21 @@ class Rook
       explore_left(board, rank, file) if direction == 'left'
       explore_right(board, rank, file) if direction == 'right'
     end
+  end
+
+  def find_openings(board)
+    openings = []
+    rank = @current_position[0]
+    file = @current_position[1]
+    # Up
+    openings.push('up') if board.positions[rank + 1][file] == '-' && (rank + 1) < 7
+    # Down
+    openings.push('down') if board.positions[rank - 1][file] == '-' && (rank - 1) >= 0
+    # Left
+    openings.push('left') if board.positions[rank][file - 1] == '-' && (file - 1) >= 0
+    # Right
+    openings.push('right') if board.positions[rank][file + 1] == '-' && (file + 1) < 7
+    openings
   end
 
   def explore_up(board, rank, file)
@@ -56,21 +81,6 @@ class Rook
       @next_moves.push([rank, file])
       file += 1
     end
-  end
-
-  def find_openings(board)
-    openings = []
-    rank = @current_position[0]
-    file = @current_position[1]
-    # Up
-    openings.push('up') if board.positions[rank + 1][file] == '-' && (rank + 1) < 7
-    # Down
-    openings.push('down') if board.positions[rank - 1][file] == '-' && (rank - 1) >= 0
-    # Left
-    openings.push('left') if board.positions[rank][file - 1] == '-' && (file - 1) >= 0
-    # Right
-    openings.push('right') if board.positions[rank][file + 1] == '-' && (file + 1) < 7
-    openings
   end
 end
 

@@ -34,6 +34,7 @@ class Player
     selected_piece = board.positions[old_position[0]][old_position[1]]
 
     until move_allowed?(selected_piece, new_position)
+      board.print_board
       puts "\n\e[1;31mMove is not allowed. Try again\e[0m"
       # start_position = select_piece_to_move(board)
       new_position = ask_for_notation('move')
@@ -45,8 +46,6 @@ class Player
 
   # Confirm player's choice of piece to be moved and return position
   def select_piece_to_move(board)
-    board.print_board
-
     # Repeatedly ask player until valid notation is entered
     position = ask_for_notation('select')
     notation = position_to_notation(position)
@@ -156,3 +155,4 @@ board = Board.new
 white = Player.new('white')
 black = Player.new('black')
 white.move_piece(board)
+black.move_piece(board)

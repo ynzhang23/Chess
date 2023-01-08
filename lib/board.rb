@@ -17,6 +17,7 @@ class Board
     @positions = Array.new(8){ Array.new(8, '-')}
     place_all_pieces
     update_all_pieces_next_moves
+    print_board
   end
 
   def place_all_pieces

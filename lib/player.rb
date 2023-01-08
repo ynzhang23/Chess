@@ -29,20 +29,33 @@ class Player
 
   # Ask player for new location for selected piece and output resulting new board
   def move_piece(board)
+    # Remove current player pawns' en_passant vulnerability
+    refresh_pawn(board)
+
     old_position = select_piece_to_move(board)
     new_position = ask_for_notation('move')
     selected_piece = board.positions[old_position[0]][old_position[1]]
 
     until move_allowed?(selected_piece, new_position)
-      board.print_board
       puts "\n\e[1;31mMove is not allowed. Try again\e[0m"
       # start_position = select_piece_to_move(board)
       new_position = ask_for_notation('move')
       selected_piece = board.positions[old_position[0]][old_position[1]]
     end
-
     selected_piece.update_position(board, new_position, old_position)
     board.update_all_pieces_next_moves
+  end
+
+  # Remove player's own pawns en_passant vulnerability at the start of his turn
+  def refresh_pawn(board)
+    board.positions.each do |row|
+      row.each do |piece|
+        next if piece == '-'
+        next unless piece.color == @player_color
+        next unless piece.symbol == '♟︎' || piece.symbol == '♙'
+        piece.en_passant_vulnerable = false
+      end
+    end
   end
 
   # Confirm player's choice of piece to be moved and return position
@@ -73,6 +86,31 @@ class Player
     position
   end
 
+  # Repeat until player entered notation is correct, returns position array
+  def ask_for_notation(action)
+    puts "#{@name}, please select a piece to move (eg. A3): " if action == 'select'
+    puts "#{@name}, where would you like to move the piece: " if action == 'move'
+    # Ask for move until a valid chess notation is selected
+    notation = gets.chomp
+    until valid_notation?(notation)
+      puts 'Invalid notation. Try again.'
+      notation = gets.chomp
+    end
+    # Convert and return notation as position array
+    notation = notation.split('')
+    file = notation[0].downcase
+    rank = notation[1]
+    notation_to_position(file, rank)
+  end
+
+  # Check if move is allowed
+  def move_allowed?(piece, new_position)
+    valid_moves = piece.next_moves
+    return true if valid_moves.include?(new_position)
+
+    false
+  end
+
   # Verify user selection
   def verified_selection?(board, position, notation)
     selected_piece = board.positions[position[0]][position[1]]
@@ -101,23 +139,6 @@ class Player
     true
   end
 
-  # Repeat until player entered notation is correct, returns position array
-  def ask_for_notation(action)
-    puts "#{@name}, please select a piece to move (eg. A3): " if action == 'select'
-    puts "#{@name}, where would you like to move the piece: " if action == 'move'
-    # Ask for move until a valid chess notation is selected
-    notation = gets.chomp
-    until valid_notation?(notation)
-      puts 'Invalid notation. Try again.'
-      notation = gets.chomp
-    end
-    # Convert and return notation as position array
-    notation = notation.split('')
-    file = notation[0].downcase
-    rank = notation[1]
-    notation_to_position(file, rank)
-  end
-
   # Check if entry is a valid chess notation
   def valid_notation?(notation)
     return false unless notation.length == 2
@@ -142,12 +163,13 @@ class Player
     rank = position[0]
     (file + 97).chr.upcase + (rank + 1).to_s
   end
+end
 
-  # Check if move is allowed
-  def move_allowed?(piece, new_position)
-    valid_moves = piece.next_moves
-    return true if valid_moves.include?(new_position)
-
-    false
-  end
+board = Board.new
+white = Player.new('white')
+black = Player.new('black')
+board.print_board
+loop do
+  white.move_piece(board)
+  black.move_piece(board)
 end

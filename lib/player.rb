@@ -10,37 +10,37 @@ class Player
   RANK = ('a'..'h').to_a.concat(('A'..'H').to_a).freeze
   FILE = %w[1 2 3 4 5 6 7 8].freeze
 
-  def initialize(name = nil, color = nil)
-    @name = name
+  def initialize(color)
+    @name = nil
     @player_color = color
+    update_white_player_name if color == 'white'
+    update_black_player_name if color == 'black'
   end
 
   def update_white_player_name
     puts 'White, please enter your name: '
     @name = gets.chomp
-    @player_color = 'white'
   end
 
   def update_black_player_name
     puts 'Black, please enter your name: '
     @name = gets.chomp
-    @player_color = 'black'
   end
 
   # Ask player for new location for selected piece and output resulting new board
   def move_piece(board)
     old_position = select_piece_to_move(board)
     new_position = ask_for_notation('move')
-    piece = board.positions[old_position[0]][old_position[1]]
+    selected_piece = board.positions[old_position[0]][old_position[1]]
 
-    until move_allowed?(piece, new_position)
-      puts 'Move is not allowed. Try again'
+    until move_allowed?(selected_piece, new_position)
+      puts "\n\e[1;31mMove is not allowed. Try again\e[0m"
       # start_position = select_piece_to_move(board)
       new_position = ask_for_notation('move')
-      piece = board.positions[old_position[0]][old_position[1]]
+      selected_piece = board.positions[old_position[0]][old_position[1]]
     end
 
-    piece.update_position(board, new_position, old_position)
+    selected_piece.update_position(board, new_position, old_position)
   end
 
   # Confirm player's choice of piece to be moved and return position
@@ -80,7 +80,7 @@ class Player
     return false unless selected_piece.color == @player_color
     return false if selected_piece.next_moves == []
 
-    puts "\e[1;33m#{@name}, you have selected to move #{notation}'s #{selected_piece.symbol}.\e[1;0m"
+    puts "\n\e[1;33m#{@name}, you have selected to move #{notation}'s #{selected_piece.symbol}.\e[1;0m"
     puts "\e[1;32mPress any key to continue.\e[1;0m"
     puts "\e[1;31mPress 'C' to reselect.\e[1;0m"
 
@@ -104,9 +104,9 @@ class Player
   # Repeat until player entered notation is correct, returns position array
   def ask_for_notation(action)
     puts "#{@name}, please select a piece to move (eg. A3): " if action == 'select'
-    puts "#{@name}, where would you like to move the piece (eg. A3): " if action == 'move'
+    puts "#{@name}, where would you like to move the piece: " if action == 'move'
     # Ask for move until a valid chess notation is selected
-    notation = gets.chomp 
+    notation = gets.chomp
     until valid_notation?(notation)
       puts 'Invalid notation. Try again.'
       notation = gets.chomp
@@ -115,7 +115,7 @@ class Player
     notation = notation.split('')
     file = notation[0].downcase
     rank = notation[1]
-    position = notation_to_position(file, rank)
+    notation_to_position(file, rank)
   end
 
   # Check if entry is a valid chess notation
@@ -153,6 +153,6 @@ class Player
 end
 
 board = Board.new
-player = Player.new
-player.update_white_player_name
-player.move_piece(board)
+white = Player.new('white')
+black = Player.new('black')
+white.move_piece(board)

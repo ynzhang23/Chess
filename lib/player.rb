@@ -1,5 +1,7 @@
 # frozen-string-literal: true
 
+require 'pry-byebug'
+
 require './lib/board'
 require './lib/pieces/rook'
 
@@ -76,6 +78,7 @@ class Player
     selected_piece = board.positions[position[0]][position[1]]
     return false if selected_piece == '-'
     return false unless selected_piece.color == @player_color
+    return false if selected_piece.next_moves == []
 
     puts "\e[1;33m#{@name}, you have selected to move #{notation}'s #{selected_piece.symbol}.\e[1;0m"
     puts "\e[1;32mPress any key to continue.\e[1;0m"

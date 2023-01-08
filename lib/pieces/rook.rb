@@ -5,7 +5,7 @@ require 'pry-byebug'
 # Template and shared method for a rook
 class Rook
   attr_reader :symbol, :next_moves, :color
-  attr_accessor :current_position
+  attr_accessor :current_position, :moved
 
   def initialize(start, symbol, color)
     @symbol = symbol
@@ -13,6 +13,7 @@ class Rook
     @start_position = start
     @current_position = start
     @next_moves = []
+    @moved = false
   end
 
   # Update piece location on board
@@ -22,6 +23,7 @@ class Rook
     board.positions[old_position[0]][old_position[1]] = '-'
     update_next_moves(board)
     board.print_board
+    @moved = true
   end
 
   # Updates @next_moves with current location

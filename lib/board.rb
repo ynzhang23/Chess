@@ -14,10 +14,9 @@ class Board
   attr_accessor :positions
 
   def initialize
-    @positions = Array.new(8){ Array.new(8, '-')}
+    @positions = Array.new(8) { Array.new(8, '-') }
     place_all_pieces
     update_all_pieces_next_moves
-    print_board
   end
 
   def place_all_pieces
@@ -35,6 +34,7 @@ class Board
     @positions.each do |row|
       row.each do |piece|
         next if piece == '-'
+
         piece.update_next_moves(self)
       end
     end

@@ -126,4 +126,60 @@ class BlackKing < King
   def initialize(rank, file)
     super([rank, file], '♔', 'black')
   end
+
+  def left_castling_available?(board)
+    # Check if King has not moved
+    return false if @moved == true
+
+    # Check if Rook has not moved
+    return false if board.positions[7][0] == '-'
+    return false unless board.positions[7][0].symbol == '♖'
+    return false if board.positions[7][0].moved == true
+
+    # Check if path is clear
+    (1..3).each do |num|
+      return false unless board.positions[7][num] == '-'
+    end
+
+    # Check if no opponent piece can move to square moved over by King
+    square_moved_over = [7, 3]
+    square_to_land = [7, 2]
+    board.positions.each do |row|
+      row.each do |piece|
+        next if piece == '-'
+        next if piece.color == @color
+        return false if (piece.next_moves & [square_moved_over, square_to_land]).any?
+      end
+    end
+
+    true
+  end
+
+  def right_castling_available?(board)
+    # Check if King has not moved
+    return false if @moved == true
+
+    # Check if Rook has not moved
+    return false if board.positions[7][7] == '-'
+    return false unless board.positions[7][7].symbol == '♖'
+    return false if board.positions[7][7].moved == true
+
+    # Check if path is clear
+    (5..6).each do |num|
+      return false unless board.positions[7][num] == '-'
+    end
+
+    # Check if no opponent piece can move to square moved over by King
+    square_moved_over = [7, 5]
+    square_to_land = [7, 6]
+    board.positions.each do |row|
+      row.each do |piece|
+        next if piece == '-'
+        next if piece.color == @color
+        return false if (piece.next_moves & [square_moved_over, square_to_land]).any?
+      end
+    end
+
+    true
+  end
 end

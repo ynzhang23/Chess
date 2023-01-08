@@ -43,19 +43,19 @@ class Rook
     rank = @current_position[0]
     file = @current_position[1]
     # Up
-    openings.push('up') if (rank + 1) <= 7 && board.positions[rank + 1][file] == '-'
+    openings.push('up') if valid_move?(board, rank + 1, file)
     # Down
-    openings.push('down') if  (rank - 1) >= 0 && board.positions[rank - 1][file] == '-'
+    openings.push('down') if valid_move?(board, rank - 1, file)
     # Left
-    openings.push('left') if  (file - 1) >= 0 && board.positions[rank][file - 1] == '-'
+    openings.push('left') if valid_move?(board, rank, file - 1)
     # Right
-    openings.push('right') if (file + 1) <= 7 && board.positions[rank][file + 1] == '-'
+    openings.push('right') if valid_move?(board, rank, file + 1)
     openings
   end
 
   def explore_up(board, rank, file)
     rank += 1
-    while  rank < 8 && board.positions[rank][file] == '-'
+    while valid_move?(board, rank, file)
       @next_moves.push([rank, file])
       rank += 1
     end
@@ -63,7 +63,7 @@ class Rook
 
   def explore_down(board, rank, file)
     rank -= 1
-    while rank >= 0 && board.positions[rank][file] == '-'
+    while valid_move?(board, rank, file)
       @next_moves.push([rank, file])
       rank -= 1
     end
@@ -71,7 +71,7 @@ class Rook
 
   def explore_left(board, rank, file)
     file -= 1
-    while file >= 0 && board.positions[rank][file] == '-'
+    while valid_move?(board, rank, file)
       @next_moves.push([rank, file])
       file -= 1
     end
@@ -79,10 +79,19 @@ class Rook
 
   def explore_right(board, rank, file)
     file += 1
-    while file >= 0 && board.positions[rank][file] == '-'
+    while valid_move?(board, rank, file)
       @next_moves.push([rank, file])
       file += 1
     end
+  end
+
+  # Test if space is valid to move to
+  def valid_move?(board, rank, file)
+    return false if rank.negative? || rank > 7 || file.negative? || file > 7
+    return true if board.positions[rank][file] == '-'
+    return false if board.positions[rank][file].color == @color
+
+    true
   end
 end
 

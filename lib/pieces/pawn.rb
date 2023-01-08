@@ -22,9 +22,12 @@ class Pawn
     board.print_board
   end
 
-  # Test if space is on board
-  def valid_move?(rank, file)
-    return false if rank < 0 || rank > 7 || file < 0 || file > 7
+  # Test if space is valid to move to
+  def valid_move?(board, rank, file)
+    return false if rank.negative? || rank > 7 || file.negative? || file > 7
+    return true if board.positions[rank][file] == '-'
+    return false if board.positions[rank][file].color == @color
+
     true
   end
 end
@@ -41,19 +44,19 @@ class WhitePawn < Pawn
     rank = @current_position[0]
     file = @current_position[1]
     # One ahead
-    @next_moves.push([rank + 1, file]) if valid_move?(rank + 1, file) && board.positions[rank + 1][file] == '-'
+    @next_moves.push([rank + 1, file]) if valid_move?(board, rank + 1, file)
 
     # Two ahead when yet to move
-    if rank == 1 && board.positions[rank + 1][file] == '-' && board.positions[rank + 2][file] == '-'
+    if rank == 1 && valid_move?(board, rank + 1, file) && board.positions[rank + 2][file] == '-'
       @next_moves.push([rank + 2, file])
     end
 
     # Check diagonal left
-    if valid_move?(rank + 1, file - 1) && board.positions[rank + 1][file - 1] != '-'
+    if valid_move?(board, rank + 1, file - 1) && board.positions[rank + 1][file - 1] != '-'
       @next_moves.push([rank + 1, file - 1])
     end
     # Check diagonal right
-    if valid_move?(rank + 1, file + 1) && board.positions[rank + 1][file + 1] != '-'
+    if valid_move?(board, rank + 1, file + 1) && board.positions[rank + 1][file + 1] != '-'
       @next_moves.push([rank + 1, file + 1])
     end
   end
@@ -71,19 +74,17 @@ class BlackPawn < Pawn
     rank = @current_position[0]
     file = @current_position[1]
     # One ahead
-    @next_moves.push([rank - 1, file]) if valid_move?(rank - 1, file) && board.positions[rank - 1][file] == '-'
+    @next_moves.push([rank - 1, file]) if valid_move?(board, rank - 1, file)
 
     # Two ahead when yet to move
-    if rank == 6 && board.positions[rank - 1][file] == '-' && board.positions[rank - 2][file] == '-'
-      @next_moves.push([rank - 2, file])
-    end
+    @next_moves.push([rank - 2, file]) if rank == 6 && board.positions[rank - 1][file] == '-'
 
     # Check diagonal down_left
-    if valid_move?(rank - 1, file - 1) && board.positions[rank + 1][file - 1] != '-'
+    if valid_move?(board, rank - 1, file - 1) && board.positions[rank + 1][file - 1] != '-'
       @next_moves.push([rank - 1, file - 1])
     end
     # Check diagonal down_right
-    if valid_move?(rank - 1, file + 1) && board.positions[rank + 1][file + 1] != '-'
+    if valid_move?(board, rank - 1, file + 1) && board.positions[rank + 1][file + 1] != '-'
       @next_moves.push([rank - 1, file + 1])
     end
   end

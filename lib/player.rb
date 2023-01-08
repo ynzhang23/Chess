@@ -42,6 +42,7 @@ class Player
     end
 
     selected_piece.update_position(board, new_position, old_position)
+    board.update_all_pieces_next_moves
   end
 
   # Confirm player's choice of piece to be moved and return position
@@ -150,9 +151,3 @@ class Player
     false
   end
 end
-
-board = Board.new
-white = Player.new('white')
-black = Player.new('black')
-white.move_piece(board)
-black.move_piece(board)

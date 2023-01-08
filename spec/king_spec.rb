@@ -26,6 +26,148 @@ describe WhiteKing do
     end
   end
 
+  describe '#left_castling_available?' do
+    context 'When path is clear to castle' do
+      it 'Returns true' do
+        board.positions[0][1] = '-'
+        board.positions[0][2] = '-'
+        board.positions[0][3] = '-'
+        result = king.left_castling_available?(board)
+        expect(result).to be true
+      end
+    end
+
+    context 'When rook has already moved but is back at original place' do
+      it 'Returns false' do
+        board.positions[0][1] = '-'
+        board.positions[0][2] = '-'
+        board.positions[0][3] = '-'
+        left_rook = board.positions[0][0]
+        left_rook.moved = true
+        result = king.left_castling_available?(board)
+        expect(result).to be false
+      end
+    end
+
+    context 'When king has already moved but is back at original place' do
+      it 'Returns false' do
+        board.positions[0][1] = '-'
+        board.positions[0][2] = '-'
+        board.positions[0][3] = '-'
+        king.moved = true
+        result = king.left_castling_available?(board)
+        expect(result).to be false
+      end
+    end
+
+    context 'When left castle is blocked by own piece' do
+      it 'Returns false' do
+        board.positions[0][1] = '-'
+        board.positions[0][3] = '-'
+        result = king.left_castling_available?(board)
+        expect(result).to be false
+      end
+    end
+
+    context 'When travelled square is attacked by enemy piece' do
+      let(:attacking_knight) { double('BlackKnight', color: 'black', next_moves: [[0, 3]])}
+      it 'Returns false' do
+        board.positions[0][1] = '-'
+        board.positions[0][2] = '-'
+        board.positions[0][3] = '-'
+
+        # King goes over [0, 3] which is attacked by black knight
+        board.positions[2][2] = attacking_knight
+
+        result = king.left_castling_available?(board)
+        expect(result).to be false
+      end
+    end
+
+    context 'When new square is attacked by enemy piece' do
+      let(:attacking_knight) { double('BlackKnight', color: 'black', next_moves: [[0, 2]])}
+      it 'Returns false' do
+        board.positions[0][1] = '-'
+        board.positions[0][2] = '-'
+        board.positions[0][3] = '-'
+
+        # King lands on [0, 2] which is attacked by black knight
+        board.positions[2][1] = attacking_knight
+
+        result = king.left_castling_available?(board)
+        expect(result).to be false
+      end
+    end
+  end
+
+  describe '#right_castling_available?' do
+    context 'When path is clear to castle' do
+      it 'Returns true' do
+        board.positions[0][5] = '-'
+        board.positions[0][6] = '-'
+        result = king.right_castling_available?(board)
+        expect(result).to be true
+      end
+    end
+
+    context 'When rook has already moved but is back at original place' do
+      it 'Returns false' do
+        board.positions[0][5] = '-'
+        board.positions[0][6] = '-'
+        right_rook = board.positions[0][7]
+        right_rook.moved = true
+        result = king.right_castling_available?(board)
+        expect(result).to be false
+      end
+    end
+
+    context 'When king has already moved but is back at original place' do
+      it 'Returns false' do
+        board.positions[0][5] = '-'
+        board.positions[0][6] = '-'
+        king.moved = true
+        result = king.right_castling_available?(board)
+        expect(result).to be false
+      end
+    end
+
+    context 'When right castle is blocked by own piece' do
+      it 'Returns false' do
+        board.positions[0][5] = '-'
+        result = king.right_castling_available?(board)
+        expect(result).to be false
+      end
+    end
+
+    context 'When travelled square is attacked by enemy piece' do
+      let(:attacking_knight) { double('BlackKnight', color: 'black', next_moves: [[0, 5]])}
+      it 'Returns false' do
+        board.positions[0][5] = '-'
+        board.positions[0][6] = '-'
+
+        # King goes over [0, 5] which is attacked by black knight
+        board.positions[2][6] = attacking_knight
+
+        result = king.right_castling_available?(board)
+        expect(result).to be false
+      end
+    end
+
+    context 'When new square is attacked by enemy piece' do
+      let(:attacking_knight) { double('BlackKnight', color: 'black', next_moves: [[0, 6]]) }
+      it 'Returns false' do
+        board.positions[0][5] = '-'
+        board.positions[0][6] = '-'
+
+        # King ends at [0, 6] which is attacked by black knight
+        board.positions[2][5] = attacking_knight
+
+        result = king.right_castling_available?(board)
+        expect(result).to be false
+      end
+    end
+  end
+
   describe '#update_position' do
     context 'When you move king from E1 to E2' do
       before do
@@ -47,6 +189,153 @@ describe WhiteKing do
         king.update_position(board, [1, 4], [0, 4])
         old_position = board.positions[0][4]
         expect(old_position).to eql("-")
+      end
+    end
+  end
+end
+
+describe BlackKing do
+  subject(:king) { BlackKing.new(0, 4) }
+  subject(:board) { Board.new }
+
+  describe '#left_castling_available?' do
+    context 'When path is clear to castle' do
+      it 'Returns true' do
+        board.positions[7][1] = '-'
+        board.positions[7][2] = '-'
+        board.positions[7][3] = '-'
+        result = king.left_castling_available?(board)
+        expect(result).to be true
+      end
+    end
+
+    context 'When rook has already moved but is back at original place' do
+      it 'Returns false' do
+        board.positions[7][1] = '-'
+        board.positions[7][2] = '-'
+        board.positions[7][3] = '-'
+        left_rook = board.positions[7][0]
+        left_rook.moved = true
+        result = king.left_castling_available?(board)
+        expect(result).to be false
+      end
+    end
+
+    context 'When king has already moved but is back at original place' do
+      it 'Returns false' do
+        board.positions[7][1] = '-'
+        board.positions[7][2] = '-'
+        board.positions[7][3] = '-'
+        king.moved = true
+        result = king.left_castling_available?(board)
+        expect(result).to be false
+      end
+    end
+
+    context 'When left castle is blocked by own piece' do
+      it 'Returns false' do
+        board.positions[7][1] = '-'
+        board.positions[7][3] = '-'
+        result = king.left_castling_available?(board)
+        expect(result).to be false
+      end
+    end
+
+    context 'When travelled square is attacked by enemy piece' do
+      let(:attacking_knight) { double('WhiteKnight', color: 'white', next_moves: [[7, 3]])}
+      it 'Returns false' do
+        board.positions[7][1] = '-'
+        board.positions[7][2] = '-'
+        board.positions[7][3] = '-'
+
+        # King goes over [7, 3] which is attacked by black knight
+        board.positions[5][2] = attacking_knight
+
+        result = king.left_castling_available?(board)
+        expect(result).to be false
+      end
+    end
+
+    context 'When new square is attacked by enemy piece' do
+      let(:attacking_knight) { double('WhiteKnight', color: 'white', next_moves: [[7, 2]])}
+      it 'Returns false' do
+        board.positions[7][1] = '-'
+        board.positions[7][2] = '-'
+        board.positions[7][3] = '-'
+
+        # King lands on [7, 2] which is attacked by black knight
+        board.positions[7][1] = attacking_knight
+
+        result = king.left_castling_available?(board)
+        expect(result).to be false
+      end
+    end
+  end
+
+  describe '#right_castling_available?' do
+    context 'When path is clear to castle' do
+      it 'Returns true' do
+        board.positions[7][5] = '-'
+        board.positions[7][6] = '-'
+        result = king.right_castling_available?(board)
+        expect(result).to be true
+      end
+    end
+
+    context 'When rook has already moved but is back at original place' do
+      it 'Returns false' do
+        board.positions[7][5] = '-'
+        board.positions[7][6] = '-'
+        right_rook = board.positions[7][7]
+        right_rook.moved = true
+        result = king.right_castling_available?(board)
+        expect(result).to be false
+      end
+    end
+
+    context 'When king has already moved but is back at original place' do
+      it 'Returns false' do
+        board.positions[7][5] = '-'
+        board.positions[7][6] = '-'
+        king.moved = true
+        result = king.right_castling_available?(board)
+        expect(result).to be false
+      end
+    end
+
+    context 'When right castle is blocked by own piece' do
+      it 'Returns false' do
+        board.positions[7][5] = '-'
+        result = king.right_castling_available?(board)
+        expect(result).to be false
+      end
+    end
+
+    context 'When travelled square is attacked by enemy piece' do
+      let(:attacking_knight) { double('WhiteKnight', color: 'white', next_moves: [[7, 5]])}
+      it 'Returns false' do
+        board.positions[7][5] = '-'
+        board.positions[7][6] = '-'
+
+        # King goes over [7, 5] which is attacked by black knight
+        board.positions[5][6] = attacking_knight
+
+        result = king.right_castling_available?(board)
+        expect(result).to be false
+      end
+    end
+
+    context 'When new square is attacked by enemy piece' do
+      let(:attacking_knight) { double('WhiteKnight', color: 'white', next_moves: [[7, 6]]) }
+      it 'Returns false' do
+        board.positions[7][5] = '-'
+        board.positions[7][6] = '-'
+
+        # King ends at [7, 6] which is attacked by black knight
+        board.positions[5][5] = attacking_knight
+
+        result = king.right_castling_available?(board)
+        expect(result).to be false
       end
     end
   end

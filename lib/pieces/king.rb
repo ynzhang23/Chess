@@ -1,5 +1,7 @@
 # frozen-string-literal: true
 
+require 'pry-byebug'
+
 # Template and shared method for a King
 class King
   attr_reader :symbol, :next_moves, :color
@@ -17,15 +19,37 @@ class King
   # Update piece location on board
   def update_position(board, new_position, old_position)
     @current_position = new_position
-    board.positions[new_position[0]][new_position[1]] = self
-    board.positions[old_position[0]][old_position[1]] = '-'
-    update_next_moves(board)
+    new_rank = new_position[0]
+    new_file = new_position[1]
+    old_rank = old_position[0]
+    old_file = old_position[1]
+
+    board.positions[new_rank][new_file] = self
+    board.positions[old_rank][old_file] = '-'
+
+    # If King castled to the left
+    if old_file - new_file == 2
+      # Move the left rook over the king
+      left_rook = board.positions[new_rank][0]
+      board.positions[new_rank][new_file + 1] = left_rook
+      board.positions[new_rank][0] = '-'
+    end
+
+    # If King castled to the right
+    if new_file - old_file == 2
+      # Move the right rook over the king
+      right_rook = board.positions[new_rank][7]
+      board.positions[new_rank][new_file - 1] = right_rook
+      board.positions[new_rank][7] = '-'
+    end
     board.print_board
+    update_next_moves(board)
     @moved = true
   end
 
   # Updates @next_moves with current location
   def update_next_moves(board)
+    @next_moves.clear
     rank = @current_position[0]
     file = @current_position[1]
     # Up

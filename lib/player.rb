@@ -4,6 +4,7 @@ require 'pry-byebug'
 
 require './lib/board'
 require './lib/pieces/rook'
+require './lib/pieces/knight'
 
 class Player
   # The valid notation for ranks
@@ -168,6 +169,14 @@ end
 board = Board.new
 white = Player.new('white')
 black = Player.new('black')
+board.positions[7][5] = '-'
+board.positions[7][6] = '-'
+board.positions[5][4] = WhiteKnight.new(5, 4)
+board.positions[0][1] = '-'
+board.positions[0][2] = '-'
+board.positions[0][3] = '-'
+board.positions[2][2] = BlackKnight.new(2, 2)
+board.update_all_pieces_next_moves
 board.print_board
 loop do
   white.move_piece(board)

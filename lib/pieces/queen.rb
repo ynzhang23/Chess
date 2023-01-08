@@ -24,6 +24,7 @@ class Queen
 
   # Updates @next_moves with current location
   def update_next_moves(board)
+    @next_moves.clear
     openings = find_openings(board)
     rank = @current_position[0]
     file = @current_position[1]

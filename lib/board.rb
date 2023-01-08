@@ -38,6 +38,20 @@ class Board
         piece.update_next_moves(self)
       end
     end
+    update_unmoved_king_next_moves
+  end
+
+  # MIGHT CHANGE THIS TO KING AT ALL STATE TO CHECK FOR CHECKMATE
+  # Update unmoved kings possible moves at the end modelled after other piece's possible moves
+  def update_unmoved_king_next_moves
+    return if @positions[0][4] == '-'
+    return if @positions[7][4] == '-'
+    if @positions[0][4].symbol == '♚' && @positions[0][4].moved == false
+      @positions[0][4].update_next_moves(self)
+    end
+    if @positions[7][4].symbol == '♔' && @positions[7][4].moved == false
+      @positions[7][4].update_next_moves(self)
+    end
   end
 
   def place_all_rooks

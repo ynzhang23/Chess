@@ -24,6 +24,7 @@ class Knight
 
   # Updates @next_moves with current location
   def update_next_moves(board)
+    @next_moves.clear
     rank = @current_position[0]
     file = @current_position[1]
     # Possible next moves starting from top right move clockwise

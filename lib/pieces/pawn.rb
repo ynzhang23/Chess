@@ -63,7 +63,7 @@ class WhitePawn < Pawn
     @en_passant_vulnerable = true if new_rank - old_position[0] == 2
     # Remove pawn that was en_passant-ed
     board.positions[new_rank - 1][new_file] = '-' if en_passant_able?(board, new_rank - 1, new_file)
-
+    update_next_moves(board)
     board.print_board
   end
 
@@ -115,7 +115,7 @@ class BlackPawn < Pawn
     @en_passant_vulnerable = true if old_position[0] - new_rank == 2
     # Remove pawn that was en_passant-ed
     board.positions[new_rank + 1][new_file] = '-' if en_passant_able?(board, new_rank + 1, new_file)
-
+    update_next_moves(board)
     board.print_board
   end
 

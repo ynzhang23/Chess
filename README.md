@@ -4,7 +4,7 @@ Command line chess game which two players can play against each other.
 ## Features
 1. Constraints with checks on illegal moves and check/mate/stalemate declarations
 2. Special case moves:
-  - <em>em-passant</em>
+  - <em>En-passant</em>
   - "check"
   - "mate"
   - "stalemate"

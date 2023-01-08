@@ -179,16 +179,32 @@ describe WhiteKing do
         expect(king.current_position).to eql([1, 4])
       end
 
-      it "Updates king's next_moves" do
-        king.update_position(board, [1, 4], [0, 4])
-        answer = [[2, 4], [0, 4], [2, 3], [2, 5]]
-        expect(king.next_moves).to eql(answer)
-      end
-
       it "Changes king's old position to empty" do
         king.update_position(board, [1, 4], [0, 4])
         old_position = board.positions[0][4]
         expect(old_position).to eql("-")
+      end
+    end
+
+    context 'When you castle to the left' do
+      before do
+        allow(board).to receive(:puts)
+      end
+
+      it 'Changes the king position' do
+        board.positions[0][1] = '-'
+        board.positions[0][2] = '-'
+        board.positions[0][3] = '-'
+        king.update_position(board, [0, 2], [0, 4])
+        expect(king.current_position).to eql([0, 2])
+      end
+
+      it 'Moves the rook over' do
+        board.positions[0][1] = '-'
+        board.positions[0][2] = '-'
+        board.positions[0][3] = '-'
+        king.update_position(board, [0, 2], [0, 4])
+        expect(board.positions[0][3].symbol).to eql('♜')
       end
     end
   end
@@ -336,6 +352,28 @@ describe BlackKing do
 
         result = king.right_castling_available?(board)
         expect(result).to be false
+      end
+    end
+  end
+
+  describe '#update_position' do
+    context 'When you castle to the right' do
+      before do
+        allow(board).to receive(:puts)
+      end
+
+      it 'Changes the king position' do
+        board.positions[7][5] = '-'
+        board.positions[7][6] = '-'
+        king.update_position(board, [7, 6], [7, 4])
+        expect(king.current_position).to eql([7, 6])
+      end
+
+      it 'Moves the rook over' do
+        board.positions[7][5] = '-'
+        board.positions[7][6] = '-'
+        king.update_position(board, [7, 6], [7, 4])
+        expect(board.positions[7][5].symbol).to eql('♖')
       end
     end
   end

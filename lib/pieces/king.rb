@@ -47,6 +47,12 @@ class King
     @moved = true
   end
 
+  # Return true if King is in check
+  def in_check?(board)
+    return true if attacked_squares(board).include?(@current_position)
+    false
+  end
+
   # Updates @next_moves with current location
   def update_next_moves(board)
     @next_moves.clear
@@ -89,7 +95,7 @@ class King
     true
   end
 
-  # Return an array of squares attacked by the opponent
+  # Return an array of squares attacked by the opponent pieces
   def attacked_squares(board)
     attacked_squares = []
     board.positions.each do |row|

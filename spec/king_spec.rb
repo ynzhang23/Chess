@@ -209,6 +209,26 @@ describe WhiteKing do
       end
     end
   end
+
+  describe '#in_check?' do
+    context 'When it is in check by opponent pawn' do
+      it 'Returns true' do
+        board.positions[4][3] = WhiteKing.new(4, 3)
+        board.positions[0][4] = '-'
+        white_king = board.positions[4][3]
+        expect(white_king.in_check?(board)).to eql(true)
+      end
+    end
+
+    context 'When it is not in check' do
+      it 'Returns false' do
+        board.positions[3][3] = WhiteKing.new(3, 3)
+        board.positions[0][4] = '-'
+        white_king = board.positions[3][3]
+        expect(white_king.in_check?(board)).to eql(false)
+      end
+    end
+  end
 end
 
 describe BlackKing do
@@ -375,6 +395,27 @@ describe BlackKing do
         board.positions[7][6] = '-'
         king.update_position(board, [7, 6], [7, 4])
         expect(board.positions[7][5].symbol).to eql('♜')
+      end
+    end
+  end
+
+  describe '#in_check?' do
+    context 'When it is in check by opponent knight' do
+      it 'Returns true' do
+        board.positions[2][2] = BlackKing.new(2, 2)
+        board.positions[7][4] = '-'
+        board.positions[1][2] = '-'
+        black_king = board.positions[2][2]
+        expect(black_king.in_check?(board)).to eql(true)
+      end
+    end
+
+    context 'When it is not in check' do
+      it 'Returns false' do
+        board.positions[4][3] = BlackKing.new(4, 3)
+        board.positions[7][4] = '-'
+        black_king = board.positions[4][3]
+        expect(black_king.in_check?(board)).to eql(false)
       end
     end
   end

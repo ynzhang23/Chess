@@ -21,3 +21,7 @@ Command line chess game which two players can play against each other.
   - "Mate": King is in check and no longer has any possible moves
 2. When updating each King's next possible move, the sequence it is ran is dependant on whoever is moving next turn.
 3. In case of two kings separated by one square, I needed to take into account of the adjacent squares of the opposite king on top of squares being attacked by other pieces when calculating next_moves.
+
+## Check + Checkmate
+1. Through heavy testing, I was able to detect a loophole where the game missed out on pawn's diagonal takes as squares that are checked
+2. Apart from that, the checkmate/check process is smoother than I expected thanks to detailed instance variables.

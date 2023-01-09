@@ -204,7 +204,7 @@ describe WhiteKing do
         board.positions[0][2] = '-'
         board.positions[0][3] = '-'
         king.update_position(board, [0, 2], [0, 4])
-        expect(board.positions[0][3].symbol).to eql('♜')
+        expect(board.positions[0][3].symbol).to eql('♖')
       end
     end
   end
@@ -373,7 +373,7 @@ describe BlackKing do
         board.positions[7][5] = '-'
         board.positions[7][6] = '-'
         king.update_position(board, [7, 6], [7, 4])
-        expect(board.positions[7][5].symbol).to eql('♖')
+        expect(board.positions[7][5].symbol).to eql('♜')
       end
     end
   end

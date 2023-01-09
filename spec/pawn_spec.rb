@@ -177,7 +177,7 @@ describe WhitePawn do
         board.positions[7][0] = promote_pawn
         promote_pawn.promote_pawn(board, 7, 0)
         square = board.positions[7][0].symbol
-        expect(square).to eql('♞')
+        expect(square).to eql('♘')
       end
     end
 
@@ -190,7 +190,7 @@ describe WhitePawn do
         board.positions[7][0] = promote_pawn
         promote_pawn.promote_pawn(board, 7, 0)
         square = board.positions[7][0].symbol
-        expect(square).to eql('♛')
+        expect(square).to eql('♕')
       end
     end
   end
@@ -370,7 +370,7 @@ describe BlackPawn do
         board.positions[0][0] = promote_pawn
         promote_pawn.promote_pawn(board, 0, 0)
         square = board.positions[0][0].symbol
-        expect(square).to eql('♘')
+        expect(square).to eql('♞')
       end
     end
 
@@ -383,7 +383,7 @@ describe BlackPawn do
         board.positions[0][0] = promote_pawn
         promote_pawn.promote_pawn(board, 0, 0)
         square = board.positions[0][0].symbol
-        expect(square).to eql('♖')
+        expect(square).to eql('♜')
       end
     end
   end

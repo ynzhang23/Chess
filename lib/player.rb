@@ -28,22 +28,28 @@ class Player
     @name = gets.chomp
   end
 
-  # Ask player for new location for selected piece and output resulting new board
+  # Ask player for new location for selected piece and output resulting new board with updated next moves
   def move_piece(board)
     # Remove current player pawns' en_passant vulnerability
     refresh_pawn(board)
 
+    # Ask player for a piece to move
     old_position = select_piece_to_move(board)
     new_position = ask_for_notation('move')
     selected_piece = board.positions[old_position[0]][old_position[1]]
 
+    # Ask player for a valid move
     until move_allowed?(selected_piece, new_position)
       puts "\n\e[1;31mMove is not allowed. Try again\e[0m"
       # start_position = select_piece_to_move(board)
       new_position = ask_for_notation('move')
       selected_piece = board.positions[old_position[0]][old_position[1]]
     end
+
+    # Move the piece and update the board
     selected_piece.update_position(board, new_position, old_position)
+
+    # Refresh every piece's possible next_moves
     board.update_all_pieces_next_moves
   end
 
@@ -121,7 +127,7 @@ class Player
 
     puts "\n\e[1;33m#{@name}, you have selected to move #{notation}'s #{selected_piece.symbol}.\e[1;0m"
     puts "\e[1;32mPress any key to continue.\e[1;0m"
-    puts "\e[1;31mPress 'C' to reselect.\e[1;0m"
+    puts "\e[1;31mPress 'C' to reselect.\e[1;0m\n"
 
     response = $stdin.getch
     return false if %w[C c].include?(response)
@@ -164,21 +170,4 @@ class Player
     rank = position[0]
     (file + 97).chr.upcase + (rank + 1).to_s
   end
-end
-
-board = Board.new
-white = Player.new('white')
-black = Player.new('black')
-board.positions[7][5] = '-'
-board.positions[7][6] = '-'
-board.positions[5][4] = WhiteKnight.new(5, 4)
-board.positions[0][1] = '-'
-board.positions[0][2] = '-'
-board.positions[0][3] = '-'
-board.positions[2][2] = BlackKnight.new(2, 2)
-board.update_all_pieces_next_moves
-board.print_board
-loop do
-  white.move_piece(board)
-  black.move_piece(board)
 end

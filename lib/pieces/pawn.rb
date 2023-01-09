@@ -1,5 +1,10 @@
 # frozen-string-literal: true
 
+require_relative 'knight'
+require_relative 'bishop'
+require_relative 'queen'
+require_relative 'rook'
+
 # Template and shared method for a Pawn
 class Pawn
   attr_reader :symbol, :next_moves, :color
@@ -44,6 +49,56 @@ class Pawn
     # Return true if it is vulnerable to en_passant
     board.positions[rank][file].en_passant_vulnerable == true
   end
+
+  # Return true if piece can be promoted
+  def promote?
+    rank = @current_position[0]
+    return true if [0, 7].include?(rank)
+
+    false
+  end
+
+  # Promote piece
+  def promote_pawn(board, new_rank, new_file)
+    board.print_board
+    puts "\n\e[1;33mRook is up for promotion! Choose the desired piece: (1 ~ 4)
+    1 - Queen
+    2 - Rook
+    3 - Bishop
+    4 - Knight\e[0m"
+    choice = gets.chomp.to_i
+    until [1, 2, 3, 4].include?(choice)
+      puts "\n\e[1;31mInvalid. Please enter a number: (1 ~ 4)\e[0m"
+      choice = gets.chomp.to_i
+    end
+
+    # Promote white piece
+    case new_rank
+    when 7
+      case choice
+      when 1
+        board.positions[new_rank][new_file] = WhiteQueen.new(new_rank, new_file)
+      when 2
+        board.positions[new_rank][new_file] = WhiteRook.new(new_rank, new_file)
+      when 3
+        board.positions[new_rank][new_file] = WhiteBishop.new(new_rank, new_file)
+      when 4
+        board.positions[new_rank][new_file] = WhiteKnight.new(new_rank, new_file)
+      end
+    # Promote black piece
+    when 0
+      case choice
+      when 1
+        board.positions[new_rank][new_file] = BlackQueen.new(new_rank, new_file)
+      when 2
+        board.positions[new_rank][new_file] = BlackRook.new(new_rank, new_file)
+      when 3
+        board.positions[new_rank][new_file] = BlackBishop.new(new_rank, new_file)
+      when 4
+        board.positions[new_rank][new_file] = BlackKnight.new(new_rank, new_file)
+      end
+    end
+  end
 end
 
 # White Pawn
@@ -59,8 +114,13 @@ class WhitePawn < Pawn
     @current_position = new_position
     board.positions[new_rank][new_file] = self
     board.positions[old_position[0]][old_position[1]] = '-'
+
+    # Promote
+    promote_pawn(board, new_rank, new_file) if promote?
+
     # Toggle vulnerable if performed two jumps
     @en_passant_vulnerable = true if new_rank - old_position[0] == 2
+
     # Remove pawn that was en_passant-ed
     board.positions[new_rank - 1][new_file] = '-' if en_passant_able?(board, new_rank - 1, new_file)
     update_next_moves(board)
@@ -111,8 +171,13 @@ class BlackPawn < Pawn
     @current_position = new_position
     board.positions[new_rank][new_file] = self
     board.positions[old_position[0]][old_position[1]] = '-'
+
+    # Promote
+    promote_pawn(board, new_rank, new_file) if promote?
+
     # Toggle vulnerable if performed two jumps
     @en_passant_vulnerable = true if old_position[0] - new_rank == 2
+
     # Remove pawn that was en_passant-ed
     board.positions[new_rank + 1][new_file] = '-' if en_passant_able?(board, new_rank + 1, new_file)
     update_next_moves(board)

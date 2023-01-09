@@ -41,7 +41,7 @@ class Pawn
 
     # Return false if it is not a pawn
     symbol = board.positions[rank][file].symbol
-    return false unless symbol == '♙' || symbol == '♟︎'
+    return false unless symbol == '♟︎' || symbol == '♙'
 
     # Return false if it is our own pawn
     return false if symbol == @symbol
@@ -104,7 +104,7 @@ end
 # White Pawn
 class WhitePawn < Pawn
   def initialize(rank, file)
-    super([rank, file], '♟︎', 'white')
+    super([rank, file], '♙', 'white')
   end
 
   # Update piece location on board
@@ -161,7 +161,7 @@ end
 # Black Pawn
 class BlackPawn < Pawn
   def initialize(rank, file)
-    super([rank, file], '♙', 'black')
+    super([rank, file], '♟︎', 'black')
   end
 
   # Update piece location on board

@@ -171,3 +171,20 @@ class Player
     (file + 97).chr.upcase + (rank + 1).to_s
   end
 end
+
+board = Board.new
+white = Player.new('white')
+black = Player.new('black')
+board.positions[7][5] = '-'
+board.positions[7][6] = '-'
+board.positions[5][4] = WhiteKnight.new(5, 4)
+board.positions[0][1] = '-'
+board.positions[0][2] = '-'
+board.positions[6][6] = WhitePawn.new(6, 6)
+board.positions[1][2] = BlackPawn.new(1, 2)
+board.update_all_pieces_next_moves
+board.print_board
+loop do
+  white.move_piece(board)
+  black.move_piece(board)
+end

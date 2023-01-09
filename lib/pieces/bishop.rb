@@ -113,13 +113,13 @@ end
 # White Bishop
 class WhiteBishop < Bishop
   def initialize(rank, file)
-    super([rank, file], '♝', 'white')
+    super([rank, file], '♗', 'white')
   end
 end
 
 # Black Bishop 
 class BlackBishop < Bishop
   def initialize(rank, file)
-    super([rank, file], '♗', 'black')
+    super([rank, file], '♝', 'black')
   end
 end

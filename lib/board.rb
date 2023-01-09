@@ -105,16 +105,16 @@ class Board
     rank_1 = filter_symbol(@positions[0]).join(' ')
 
     puts "
-    ⚉ A B C D E F G H ⚉
-    8 #{rank_8} 8
-    7 #{rank_7} 7
-    6 #{rank_6} 6
-    5 #{rank_5} 5
-    4 #{rank_4} 4
-    3 #{rank_3} 3
-    2 #{rank_2} 2
-    1 #{rank_1} 1
-    ⚉ A B C D E F G H ⚉
+    \e[1;47m\e[1;30m⚉ A B C D E F G H ⚉\e[0m
+    \e[1;47m\e[1;30m8 #{rank_8} 8\e[0m
+    \e[1;47m\e[1;30m7 #{rank_7} 7\e[0m
+    \e[1;47m\e[1;30m6 #{rank_6} 6\e[0m
+    \e[1;47m\e[1;30m5 #{rank_5} 5\e[0m
+    \e[1;47m\e[1;30m4 #{rank_4} 4\e[0m
+    \e[1;47m\e[1;30m3 #{rank_3} 3\e[0m
+    \e[1;47m\e[1;30m2 #{rank_2} 2\e[0m
+    \e[1;47m\e[1;30m1 #{rank_1} 1\e[0m
+    \e[1;47m\e[1;30m⚉ A B C D E F G H ⚉\e[0m
     "
   end
 

@@ -87,7 +87,7 @@ end
 # White King
 class WhiteKing < King
   def initialize(rank, file)
-    super([rank, file], '♚', 'white')
+    super([rank, file], '♔', 'white')
   end
 
   def left_castling_available?(board)
@@ -148,7 +148,7 @@ end
 # Black King
 class BlackKing < King
   def initialize(rank, file)
-    super([rank, file], '♔', 'black')
+    super([rank, file], '♚', 'black')
   end
 
   def left_castling_available?(board)

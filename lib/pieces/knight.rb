@@ -53,13 +53,13 @@ end
 # White Knight
 class WhiteKnight < Knight
   def initialize(rank, file)
-    super([rank, file], '♞', 'white')
+    super([rank, file], '♘', 'white')
   end
 end
 
 # Black Knight
 class BlackKnight < Knight
   def initialize(rank, file)
-    super([rank, file], '♘', 'black')
+    super([rank, file], '♞', 'black')
   end
 end

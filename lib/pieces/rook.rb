@@ -101,13 +101,13 @@ end
 # White rook
 class WhiteRook < Rook
   def initialize(rank, file)
-    super([rank, file], '♜', 'white')
+    super([rank, file], '♖', 'white')
   end
 end
 
 # Black rook
 class BlackRook < Rook
   def initialize(rank, file)
-    super([rank, file], '♖', 'black')
+    super([rank, file], '♜', 'black')
   end
 end

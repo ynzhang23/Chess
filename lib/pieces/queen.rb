@@ -147,13 +147,13 @@ end
 # White Queen
 class WhiteQueen < Queen
   def initialize(rank, file)
-    super([rank, file], '♛', 'white')
+    super([rank, file], '♕', 'white')
   end
 end
 
 # Black Queen
 class BlackQueen < Queen
   def initialize(rank, file)
-    super([rank, file], '♕', 'black')
+    super([rank, file], '♛', 'black')
   end
 end

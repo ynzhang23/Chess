@@ -1,5 +1,4 @@
 # frozen-string-literal: true
-require 'pry-byebug'
 
 require './lib/board'
 require './lib/pieces/rook'

@@ -1,7 +1,5 @@
 # frozen-string-literal: true
 
-require 'pry-byebug'
-
 # Template and shared method for a rook
 class Rook
   attr_reader :symbol, :next_moves, :color

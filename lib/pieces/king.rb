@@ -1,7 +1,5 @@
 # frozen-string-literal: true
 
-require 'pry-byebug'
-
 # Template and shared method for a King
 class King
   attr_reader :symbol, :next_moves, :color

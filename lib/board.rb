@@ -1,7 +1,5 @@
 # frozen-string-literal: true
 
-require 'pry-byebug'
-
 require './lib/pieces/rook'
 require './lib/pieces/knight'
 require './lib/pieces/bishop'

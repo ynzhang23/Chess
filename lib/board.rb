@@ -11,10 +11,14 @@ require './lib/pieces/pawn'
 
 # Contains the win condition, constraints and board data
 class Board
-  attr_accessor :positions
+  attr_accessor :positions, :king_position
 
   def initialize
     @positions = Array.new(8) { Array.new(8, '-') }
+    @king_position = {
+      white: [],
+      black: []
+    }
     place_all_pieces
     update_all_pieces_next_moves
   end
@@ -35,23 +39,30 @@ class Board
       row.each do |piece|
         next if piece == '-'
 
+        # Update the king's next moves at the end
+        if piece.symbol == '♔'
+          @king_position[:white] = piece.current_position
+          next
+        end
+        if piece.symbol == '♚'
+          @king_position[:black] = piece.current_position
+          next
+        end
+
         piece.update_next_moves(self)
       end
     end
-    update_unmoved_king_next_moves
+    update_both_king_next_moves
   end
 
-  # MIGHT CHANGE THIS TO KING AT ALL STATE TO CHECK FOR CHECKMATE
-  # Update unmoved kings possible moves at the end modelled after other piece's possible moves
-  def update_unmoved_king_next_moves
-    return if @positions[0][4] == '-'
-    return if @positions[7][4] == '-'
-    if @positions[0][4].symbol == '♚' && @positions[0][4].moved == false
-      @positions[0][4].update_next_moves(self)
-    end
-    if @positions[7][4].symbol == '♔' && @positions[7][4].moved == false
-      @positions[7][4].update_next_moves(self)
-    end
+  # Update the next moves of the two kings
+  def update_both_king_next_moves
+    white_king = @positions[@king_position[:white][0]][@king_position[:white][1]]
+    black_king = @positions[@king_position[:black][0]][@king_position[:black][1]]
+    # Update white king's move
+    white_king.update_next_moves(self)
+    # Update black king's move
+    black_king.update_next_moves(self)
   end
 
   def place_all_rooks

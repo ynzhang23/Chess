@@ -46,7 +46,7 @@ class Player
       selected_piece = board.positions[old_position[0]][old_position[1]]
     end
 
-    # Move the piece and update the board
+    # Move the piece and update itself on the board
     selected_piece.update_position(board, new_position, old_position)
 
     # Refresh every piece's possible next_moves
@@ -60,6 +60,7 @@ class Player
         next if piece == '-'
         next unless piece.color == @player_color
         next unless piece.symbol == '♟︎' || piece.symbol == '♙'
+
         piece.en_passant_vulnerable = false
       end
     end

@@ -50,6 +50,7 @@ class King
   # Updates @next_moves with current location
   def update_next_moves(board)
     @next_moves.clear
+
     rank = @current_position[0]
     file = @current_position[1]
     # Up
@@ -72,6 +73,11 @@ class King
     @next_moves.push([rank, file - 2]) if left_castling_available?(board)
     # Right Castling
     @next_moves.push([rank, file + 2]) if right_castling_available?(board)
+    # Remove moves that will result the King to be checked
+    @next_moves -= attacked_squares(board)
+
+    # Remove moves that will result the King to be checked by opponent King
+    @next_moves -= opponent_king_adjacent(board)
   end
 
   # Test if space is valid to move to
@@ -81,6 +87,61 @@ class King
     return false if board.positions[rank][file].color == @color
 
     true
+  end
+
+  # Return an array of squares attacked by the opponent
+  def attacked_squares(board)
+    attacked_squares = []
+    board.positions.each do |row|
+      row.each do |piece|
+        next if piece == '-'
+        next if piece.color == @color
+
+        attacked_squares += piece.next_moves
+      end
+    end
+    attacked_squares.uniq
+  end
+
+  # Return an array of adjacent squares of the opponent king
+  def opponent_king_adjacent(board)
+    adjacent_squares = []
+    case @color
+    when 'white'
+      rank = board.king_position[:black][0]
+      file = board.king_position[:black][1]
+    when 'black'
+      rank = board.king_position[:white][0]
+      file = board.king_position[:white][1]
+    end
+    # Up
+    adjacent_squares.push([rank + 1, file]) if opp_king_valid_move?(board, rank + 1, file)
+    # Down
+    adjacent_squares.push([rank - 1, file]) if opp_king_valid_move?(board, rank - 1, file)
+    # Left
+    adjacent_squares.push([rank, file - 1]) if opp_king_valid_move?(board, rank, file - 1)
+    # Right
+    adjacent_squares.push([rank, file + 1]) if opp_king_valid_move?(board, rank, file + 1)
+    # Up Left
+    adjacent_squares.push([rank + 1, file - 1]) if opp_king_valid_move?(board, rank + 1, file - 1)
+    # Up Right
+    adjacent_squares.push([rank + 1, file + 1]) if opp_king_valid_move?(board, rank + 1, file + 1)
+    # Down Left
+    adjacent_squares.push([rank - 1, file - 1]) if opp_king_valid_move?(board, rank - 1, file - 1)
+    # Down Right
+    adjacent_squares.push([rank - 1, file + 1]) if opp_king_valid_move?(board, rank - 1, file + 1)
+
+    adjacent_squares
+  end
+
+  def opp_king_valid_move?(board, rank, file)
+    return false if rank.negative? || rank > 7 || file.negative? || file > 7
+    return true if board.positions[rank][file] == '-'
+    # Valid move if adj. piece is opposite color
+    return true if board.positions[rank][file].color == @color
+
+    # Return false since adj. piece is own color
+    false
   end
 end
 
@@ -95,7 +156,7 @@ class WhiteKing < King
     return false if @moved == true
     # Check if Rook has not moved
     return false if board.positions[0][0] == '-'
-    return false unless board.positions[0][0].symbol == '♜'
+    return false unless board.positions[0][0].symbol == '♖'
     return false if board.positions[0][0].moved == true
 
     # Check if path is clear
@@ -122,7 +183,7 @@ class WhiteKing < King
     return false if @moved == true
     # Check if Rook has not moved
     return false if board.positions[0][7] == '-'
-    return false unless board.positions[0][7].symbol == '♜'
+    return false unless board.positions[0][7].symbol == '♖'
     return false if board.positions[0][7].moved == true
 
     # Check if path is clear
@@ -157,7 +218,7 @@ class BlackKing < King
 
     # Check if Rook has not moved
     return false if board.positions[7][0] == '-'
-    return false unless board.positions[7][0].symbol == '♖'
+    return false unless board.positions[7][0].symbol == '♜'
     return false if board.positions[7][0].moved == true
 
     # Check if path is clear
@@ -185,7 +246,7 @@ class BlackKing < King
 
     # Check if Rook has not moved
     return false if board.positions[7][7] == '-'
-    return false unless board.positions[7][7].symbol == '♖'
+    return false unless board.positions[7][7].symbol == '♜'
     return false if board.positions[7][7].moved == true
 
     # Check if path is clear

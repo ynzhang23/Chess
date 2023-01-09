@@ -140,6 +140,60 @@ describe WhitePawn do
       end
     end
   end
+
+  describe '#promote?' do
+    context 'When white pawn is on the last rank' do
+      subject(:promote_pawn) { WhitePawn.new(7, 0) }
+      it 'Returns true' do
+        board.positions[7][0] = promote_pawn
+        result = promote_pawn.promote?
+        expect(result).to be true
+      end
+    end
+
+    context 'When white pawn is not on the last rank' do
+      subject(:promote_pawn) { WhitePawn.new(6, 0) }
+      it 'Returns false' do
+        board.positions[6][0] = promote_pawn
+        result = promote_pawn.promote?
+        expect(result).to be false
+      end
+    end
+  end
+
+  describe '#promote_pawn' do
+    subject(:promote_pawn) { described_class.new(7, 0) }
+    before do
+      allow(board).to receive(:puts)
+      allow(promote_pawn).to receive(:puts)
+    end
+
+    context 'When I promote it to a knight' do
+      before do
+        allow(promote_pawn).to receive(:gets).and_return('4')
+      end
+
+      it 'Changes the pawn to knight' do
+        board.positions[7][0] = promote_pawn
+        promote_pawn.promote_pawn(board, 7, 0)
+        square = board.positions[7][0].symbol
+        expect(square).to eql('♞')
+      end
+    end
+
+    context 'When I promote it to a queen' do
+      before do
+        allow(promote_pawn).to receive(:gets).and_return('a', '1')
+      end
+
+      it 'Changes the pawn to queen' do
+        board.positions[7][0] = promote_pawn
+        promote_pawn.promote_pawn(board, 7, 0)
+        square = board.positions[7][0].symbol
+        expect(square).to eql('♛')
+      end
+    end
+  end
 end
 
 describe BlackPawn do
@@ -276,6 +330,60 @@ describe BlackPawn do
         victim_pawn.en_passant_vulnerable = true
         killer_pawn.update_position(board, [1, 5], [2, 6])
         expect(board.positions[2][5]).to eql('-')
+      end
+    end
+  end
+
+  describe '#promote?' do
+    context 'When white pawn is on the last rank' do
+      subject(:promote_pawn) { BlackPawn.new(0, 0) }
+      it 'Returns true' do
+        board.positions[0][0] = promote_pawn
+        result = promote_pawn.promote?
+        expect(result).to be true
+      end
+    end
+
+    context 'When white pawn is not on the last rank' do
+      subject(:promote_pawn) { WhitePawn.new(1, 0) }
+      it 'Returns false' do
+        board.positions[1][0] = promote_pawn
+        result = promote_pawn.promote?
+        expect(result).to be false
+      end
+    end
+  end
+
+  describe '#promote_pawn' do
+    subject(:promote_pawn) { described_class.new(0, 0) }
+    before do
+      allow(board).to receive(:puts)
+      allow(promote_pawn).to receive(:puts)
+    end
+
+    context 'When I promote it to a knight' do
+      before do
+        allow(promote_pawn).to receive(:gets).and_return('4')
+      end
+
+      it 'Changes the pawn to knight' do
+        board.positions[0][0] = promote_pawn
+        promote_pawn.promote_pawn(board, 0, 0)
+        square = board.positions[0][0].symbol
+        expect(square).to eql('♘')
+      end
+    end
+
+    context 'When I promote it to a rook' do
+      before do
+        allow(promote_pawn).to receive(:gets).and_return('2')
+      end
+
+      it 'Changes the pawn to rook' do
+        board.positions[0][0] = promote_pawn
+        promote_pawn.promote_pawn(board, 0, 0)
+        square = board.positions[0][0].symbol
+        expect(square).to eql('♖')
       end
     end
   end

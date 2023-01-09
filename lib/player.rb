@@ -1,5 +1,4 @@
 # frozen-string-literal: true
-
 require 'pry-byebug'
 
 require './lib/board'
@@ -11,20 +10,24 @@ class Player
   RANK = ('a'..'h').to_a.concat(('A'..'H').to_a).freeze
   FILE = %w[1 2 3 4 5 6 7 8].freeze
 
+  attr_reader :name
+  attr_accessor :win
+
   def initialize(color)
     @name = nil
     @player_color = color
+    @win = false
     update_white_player_name if color == 'white'
     update_black_player_name if color == 'black'
   end
 
   def update_white_player_name
-    puts 'White, please enter your name: '
+    puts "\nWhite, please enter your name: "
     @name = gets.chomp
   end
 
   def update_black_player_name
-    puts 'Black, please enter your name: '
+    puts "\nBlack, please enter your name: "
     @name = gets.chomp
   end
 
@@ -51,6 +54,79 @@ class Player
 
     # Refresh every piece's possible next_moves
     board.update_all_pieces_next_moves
+  end
+
+  # Player is in check, ask player to move their king
+  def move_king_only(board, player, opponent)
+    # Dependant on current round's player
+    case @player_color
+    when 'white'
+      rank = board.king_position[:white][0]
+      file = board.king_position[:white][1]
+      white_king = board.positions[rank][file]
+
+      # End game if it is a checkmate
+      return if checkmate?(white_king, opponent)
+
+      # Prompt player to move the king
+      puts "\n\e[1;36mCHECK!"
+      puts "\e[1;36m#{@name}, move your King!\e[0m\n"
+
+      old_position = white_king.current_position
+      new_position = ask_for_notation('move')
+      selected_piece = white_king
+
+      # Ask player for a valid move for the king
+      until move_allowed?(selected_piece, new_position)
+        puts "\n\e[1;31mMove is not allowed. Try again\e[0m"
+        # start_position = select_piece_to_move(board)
+        new_position = ask_for_notation('move')
+        selected_piece = board.positions[old_position[0]][old_position[1]]
+      end
+
+      # Move the piece and update itself on the board
+      selected_piece.update_position(board, new_position, old_position)
+
+      # Refresh every piece's possible next_moves
+      board.update_all_pieces_next_moves
+    when 'black'
+      rank = board.king_position[:black][0]
+      file = board.king_position[:black][1]
+      black_king = board.positions[rank][file]
+
+      # End game if it is a checkmate
+      return if checkmate?(black_king, opponent)
+      # Prompt player to move the king
+      puts "\n\e[1;36mCHECK!"
+      puts "\e[1;36m#{@name}, move your King!\e[0m\n"
+
+      old_position = black_king.current_position
+      new_position = ask_for_notation('move')
+      selected_piece = black_king
+
+      # Ask player for a valid move for the king
+      until move_allowed?(selected_piece, new_position)
+        puts "\n\e[1;31mMove is not allowed. Try again\e[0m"
+        # start_position = select_piece_to_move(board)
+        new_position = ask_for_notation('move')
+        selected_piece = board.positions[old_position[0]][old_position[1]]
+      end
+
+      # Move the piece and update itself on the board
+      selected_piece.update_position(board, new_position, old_position)
+
+      # Refresh every piece's possible next_moves
+      board.update_all_pieces_next_moves
+    end
+  end
+
+  # Toggle @win = true if it is a checkmate + Output win message
+  def checkmate?(king, opponent)
+    return unless king.next_moves == []
+
+    puts "\n\e[1;36mCHECKMATE!\e[0m\n"
+    puts "\e[1;36m#{opponent.name} is the winner.\e[0m\n"
+    opponent.win = true
   end
 
   # Remove player's own pawns en_passant vulnerability at the start of his turn
@@ -171,21 +247,4 @@ class Player
     rank = position[0]
     (file + 97).chr.upcase + (rank + 1).to_s
   end
-end
-
-board = Board.new
-white = Player.new('white')
-black = Player.new('black')
-board.positions[7][5] = '-'
-board.positions[7][6] = '-'
-board.positions[5][4] = WhiteKnight.new(5, 4)
-board.positions[0][1] = '-'
-board.positions[0][2] = '-'
-board.positions[6][6] = WhitePawn.new(6, 6)
-board.positions[1][2] = BlackPawn.new(1, 2)
-board.update_all_pieces_next_moves
-board.print_board
-loop do
-  white.move_piece(board)
-  black.move_piece(board)
 end

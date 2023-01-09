@@ -33,7 +33,7 @@ class Board
     update_all_pieces_next_moves
   end
 
-  # Updates next possible moves for all pieces
+  # Updates next possible moves for all pieces + the two kings' position on board
   def update_all_pieces_next_moves
     @positions.each do |row|
       row.each do |piece|

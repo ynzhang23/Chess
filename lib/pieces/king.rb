@@ -104,6 +104,19 @@ class King
         next if piece.color == @color
 
         attacked_squares += piece.next_moves
+        # Take into account of pawn's diagonal square
+        case piece.symbol
+        when '♙'
+          rank = piece.current_position[0]
+          file = piece.current_position[1]
+          array = [[rank + 1, file - 1], [rank + 1, file + 1]]
+          attacked_squares += array
+        when '♟︎'
+          rank = piece.current_position[0]
+          file = piece.current_position[1]
+          array = [[rank - 1, file - 1], [rank - 1, file + 1]]
+          attacked_squares += array
+        end
       end
     end
     attacked_squares.uniq

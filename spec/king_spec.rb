@@ -19,7 +19,8 @@ describe WhiteKing do
       subject(:temp_king) { WhiteKing.new(3, 3)}
 
       it 'Returns an array with valid moves' do
-        answer = [[4, 3], [2, 3], [3, 2], [3, 4], [4, 2], [4, 4], [2, 2], [2, 4]]
+        answer = [[2, 3], [3, 2], [3, 4], [2, 2], [2, 4]]
+        board.positions[3][3] = temp_king
         temp_king.update_next_moves(board)
         expect(temp_king.next_moves).to eql(answer)
       end

@@ -1,5 +1,4 @@
 # Chess
-Command line chess game which two players can play against each other.  
 Try it out: [https://replit.com/@ynzhang23/Chess?v=1]
 
 ## Features

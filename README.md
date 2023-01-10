@@ -30,7 +30,7 @@ Try it out: [https://replit.com/@ynzhang23/Chess?v=1]
 ### Save/Load Game
 1. Resuming the game with the player who saved the game proved to be less intuitive than I imagined. Managed to solve this by adding a instance variable to Player class that logs if one is the one who saved.
 2. Allow player to type 'save_game' at any moment to save and exit the program.
-3. The recent Ruby updates to Psych has prevented YAML from loading class: Symbol as well as unspecified classes. Aliases has to be set to true as well.
+3. The recent Ruby 3.X updates to Psych has prevented YAML from loading class: Symbol as well as unspecified classes. Aliases has to be set to true as well. (This is not reflected in my replit codebase as replit uses ruby 2.7)
 ```
 YAML.load_file(
       "saves/#{filename}",

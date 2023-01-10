@@ -3,16 +3,19 @@ Command line chess game which two players can play against each other.
 Try it out: [https://replit.com/@ynzhang23/Chess?v=1]
 
 ## Features
-1. Constraints with checks on illegal moves and check/mate/stalemate declarations
-2. Special case moves:
+1. **Constraints with checks on illegal moves and check/mate/stalemate declarations**
+2. **Special case moves:**
   - <em>En-passant</em>
   - "check"
   - "mate"
   - "stalemate"
   - castling
   - promote
-3. Saveable/loadable game using YAML
-4. Single player mode against <em>"drunk_maCPUrthy"</em> who generates random legal moves
+3. **SAVE/LOAD game using YAML**
+  - Both single player and multiplayer game is saveable
+  - You can continue your saved multiplayer games
+  - You can also load your multiplayer game file into single player mode and let the computer be your opponent 🤠
+4. **Single player mode against <em>"drunk_maCPUrthy"</em> who generates random legal moves**
 
 ## Challenge Faced
 ### King's possible moves

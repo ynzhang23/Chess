@@ -1,9 +1,10 @@
 # frozen-string-literal: true
 
+require 'pry-byebug'
+
 # Template and shared method for a Queen
 class Queen
-  attr_reader :symbol, :next_moves, :color
-  attr_accessor :current_position
+  attr_accessor :current_position, :symbol, :next_moves, :color
 
   def initialize(start_position, symbol, color)
     @symbol = symbol
@@ -61,6 +62,9 @@ class Queen
     rank += 1
     while valid_move?(board, rank, file)
       @next_moves.push([rank, file])
+      # Stops the exploration if it is a piece
+      break unless board.positions[rank][file] == '-'
+
       rank += 1
     end
   end
@@ -69,6 +73,9 @@ class Queen
     rank -= 1
     while valid_move?(board, rank, file)
       @next_moves.push([rank, file])
+      # Stops the exploration if it is a piece
+      break unless board.positions[rank][file] == '-'
+
       rank -= 1
     end
   end
@@ -77,6 +84,9 @@ class Queen
     file -= 1
     while valid_move?(board, rank, file)
       @next_moves.push([rank, file])
+      # Stops the exploration if it is a piece
+      break unless board.positions[rank][file] == '-'
+
       file -= 1
     end
   end
@@ -85,6 +95,9 @@ class Queen
     file += 1
     while valid_move?(board, rank, file)
       @next_moves.push([rank, file])
+      # Stops the exploration if it is a piece
+      break unless board.positions[rank][file] == '-'
+
       file += 1
     end
   end
@@ -95,6 +108,9 @@ class Queen
     file -= 1
     while valid_move?(board, rank, file)
       @next_moves.push([rank, file])
+      # Stops the exploration if it is a piece
+      break unless board.positions[rank][file] == '-'
+
       rank += 1
       file -= 1
     end
@@ -106,6 +122,9 @@ class Queen
     file += 1
     while valid_move?(board, rank, file)
       @next_moves.push([rank, file])
+      # Stops the exploration if it is a piece
+      break unless board.positions[rank][file] == '-'
+
       rank += 1
       file += 1
     end
@@ -118,6 +137,9 @@ class Queen
     # Move diagonally down right until a block
     while valid_move?(board, rank, file)
       @next_moves.push([rank, file])
+      # Stops the exploration if it is a piece
+      break unless board.positions[rank][file] == '-'
+
       rank -= 1
       file -= 1
     end
@@ -129,6 +151,9 @@ class Queen
     file += 1
     while valid_move?(board, rank, file)
       @next_moves.push([rank, file])
+      # Stops the exploration if it is a piece
+      break unless board.positions[rank][file] == '-'
+
       rank -= 1
       file += 1
     end

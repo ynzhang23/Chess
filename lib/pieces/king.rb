@@ -2,8 +2,7 @@
 
 # Template and shared method for a King
 class King
-  attr_reader :symbol, :next_moves, :color
-  attr_accessor :current_position, :moved
+  attr_accessor :current_position, :symbol, :next_moves, :color, :moved
 
   def initialize(start_position, symbol, color)
     @symbol = symbol

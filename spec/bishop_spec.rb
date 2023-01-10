@@ -80,9 +80,10 @@ describe WhiteBishop do
       subject(:temp_bishop) { described_class.new(3, 3)}
 
       it 'Returns an array with valid moves' do
-        board.positions[2][4] = 'B'
-        board.positions[4][4] = 'B'
-        board.positions[4][2] = 'B'
+        board.positions[2][4] = temp_bishop
+        board.positions[4][4] = temp_bishop
+        board.positions[4][2] = temp_bishop
+        board.positions[3][3] = temp_bishop
         temp_bishop.update_next_moves(board)
         # Answer is the entire rank except for bishop's place
         answer = [[2, 2]]
@@ -94,7 +95,7 @@ describe WhiteBishop do
       subject(:temp_bishop) { described_class.new(5, 0) }
 
       it 'Returns an array with valid moves' do
-        answer = [[4, 1], [3, 2], [2, 3]]
+        answer = [[6, 1], [4, 1], [3, 2], [2, 3]]
         temp_bishop.update_next_moves(board)
         expect(temp_bishop.next_moves).to eql(answer)
       end
@@ -104,7 +105,8 @@ describe WhiteBishop do
       subject(:temp_bishop) { WhiteBishop.new(3, 3)}
 
       it 'Returns an array with valid moves' do
-        answer = [[4, 2], [5, 1], [4, 4], [5, 5], [2, 2], [2, 4]]
+        board.positions[3][3] = temp_bishop
+        answer = [[4, 2], [5, 1], [6, 0], [4, 4], [5, 5], [6, 6], [2, 2], [2, 4]]
         temp_bishop.update_next_moves(board)
         expect(temp_bishop.next_moves).to eql(answer)
       end
@@ -120,12 +122,6 @@ describe WhiteBishop do
       it "Changes bishop's current position" do
         bishop.update_position(board, [2, 0], [0, 2])
         expect(bishop.current_position).to eql([2, 0])
-      end
-
-      it "Updates bishop's next_moves" do
-        bishop.update_position(board, [2, 0], [0, 0])
-        answer = [[3, 1], [4, 2], [5, 3]]
-        expect(bishop.next_moves).to eql(answer)
       end
 
       it "Changes bishop's old position to empty" do

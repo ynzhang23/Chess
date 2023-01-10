@@ -2,8 +2,7 @@
 
 # Template and shared method for a rook
 class Rook
-  attr_reader :symbol, :next_moves, :color
-  attr_accessor :current_position, :moved
+  attr_accessor :current_position, :moved, :symbol, :next_moves, :color
 
   def initialize(start, symbol, color)
     @symbol = symbol
@@ -58,6 +57,9 @@ class Rook
     rank += 1
     while valid_move?(board, rank, file)
       @next_moves.push([rank, file])
+      # Stops the exploration if it is a piece
+      break unless board.positions[rank][file] == '-'
+
       rank += 1
     end
   end
@@ -66,6 +68,9 @@ class Rook
     rank -= 1
     while valid_move?(board, rank, file)
       @next_moves.push([rank, file])
+      # Stops the exploration if it is a piece
+      break unless board.positions[rank][file] == '-'
+
       rank -= 1
     end
   end
@@ -74,6 +79,9 @@ class Rook
     file -= 1
     while valid_move?(board, rank, file)
       @next_moves.push([rank, file])
+      # Stops the exploration if it is a piece
+      break unless board.positions[rank][file] == '-'
+
       file -= 1
     end
   end
@@ -82,6 +90,9 @@ class Rook
     file += 1
     while valid_move?(board, rank, file)
       @next_moves.push([rank, file])
+      # Stops the exploration if it is a piece
+      break unless board.positions[rank][file] == '-'
+
       file += 1
     end
   end

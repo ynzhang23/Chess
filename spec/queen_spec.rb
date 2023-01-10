@@ -48,10 +48,11 @@ describe WhiteQueen do
     end
 
     context 'When there are valid moves on all sides' do
-      subject(:temp_queen) { WhiteQueen.new(3, 3)}
+      subject(:temp_queen) { WhiteQueen.new(3, 3) }
 
       it 'Returns an array with valid moves' do
-        answer = [[4, 3], [5, 3], [2, 3], [3, 2], [3, 1], [3, 0], [3, 4], [3, 5], [3, 6], [3, 7], [4, 2], [5, 1], [4, 4], [5, 5], [2, 2], [2, 4]]
+        answer = [[4, 3], [5, 3], [6, 3], [2, 3], [3, 2], [3, 1], [3, 0], [3, 4], [3, 5], [3, 6], [3, 7], [4, 2], [5, 1], [6, 0], [4, 4], [5, 5], [6, 6], [2, 2], [2, 4]]
+        board.positions[3][3] = temp_queen
         temp_queen.update_next_moves(board)
         expect(temp_queen.next_moves).to eql(answer)
       end
@@ -71,7 +72,7 @@ describe WhiteQueen do
 
       it "Updates queen's next_moves" do
         queen.update_position(board, [3, 3], [0, 3])
-        answer = [[4, 3], [5, 3], [2, 3], [3, 2], [3, 1], [3, 0], [3, 4], [3, 5], [3, 6], [3, 7], [4, 2], [5, 1], [4, 4], [5, 5], [2, 2], [2, 4]]
+        answer = [[4, 3], [5, 3], [6, 3], [2, 3], [3, 2], [3, 1], [3, 0], [3, 4], [3, 5], [3, 6], [3, 7], [4, 2], [5, 1], [6, 0], [4, 4], [5, 5], [6, 6], [2, 2], [2, 4]]
         expect(queen.next_moves).to eql(answer)
       end
 

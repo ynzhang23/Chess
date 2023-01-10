@@ -2,8 +2,7 @@
 
 # Template and shared method for a Knight
 class Knight
-  attr_reader :symbol, :next_moves, :color
-  attr_accessor :current_position
+  attr_accessor :current_position, :symbol, :next_moves, :color
 
   def initialize(start_position, symbol, color)
     @symbol = symbol

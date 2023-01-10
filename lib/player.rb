@@ -1,6 +1,7 @@
 # frozen-string-literal: true
 
 require './lib/board'
+require './lib/save'
 require './lib/pieces/rook'
 require './lib/pieces/knight'
 
@@ -9,13 +10,13 @@ class Player
   RANK = ('a'..'h').to_a.concat(('A'..'H').to_a).freeze
   FILE = %w[1 2 3 4 5 6 7 8].freeze
 
-  attr_reader :name
-  attr_accessor :win
+  attr_accessor :win, :name, :next_up
 
   def initialize(color)
     @name = nil
     @player_color = color
     @win = false
+    @next_up = false
     update_white_player_name if color == 'white'
     update_black_player_name if color == 'black'
   end
@@ -37,15 +38,21 @@ class Player
 
     # Ask player for a piece to move
     old_position = select_piece_to_move(board)
+    # Return and save game if user inputs 'save_game'
+    return 'save_game' if old_position == 'save_game'
+
     new_position = ask_for_notation('move')
+    # Return and save game if user inputs 'save_game'
+    return 'save_game' if new_position == 'save_game'
+
     selected_piece = board.positions[old_position[0]][old_position[1]]
 
     # Ask player for a valid move
     until move_allowed?(selected_piece, new_position)
       puts "\n\e[1;31mMove is not allowed. Try again\e[0m"
-      # start_position = select_piece_to_move(board)
       new_position = ask_for_notation('move')
-      selected_piece = board.positions[old_position[0]][old_position[1]]
+      # Return and save game if user inputs 'save_game'
+      return 'save_game' if new_position == 'save_game'
     end
 
     # Move the piece and update itself on the board
@@ -59,28 +66,27 @@ class Player
   def move_king_only(board, player, opponent)
     # Dependant on current round's player
     case @player_color
+    # White King in check
     when 'white'
       rank = board.king_position[:white][0]
       file = board.king_position[:white][1]
       white_king = board.positions[rank][file]
 
       # End game if it is a checkmate
-      return if checkmate?(white_king, opponent)
+      checkmate?(white_king, opponent)
 
       # Prompt player to move the king
       puts "\n\e[1;36mCHECK!"
       puts "\e[1;36m#{@name}, move your King!\e[0m\n"
 
-      old_position = white_king.current_position
       new_position = ask_for_notation('move')
-      selected_piece = white_king
+      # Return and save game if user inputs 'save_game'
+      return 'save_game' if new_position == 'save_game'
 
       # Ask player for a valid move for the king
-      until move_allowed?(selected_piece, new_position)
+      until move_allowed?(white_king, new_position)
         puts "\n\e[1;31mMove is not allowed. Try again\e[0m"
-        # start_position = select_piece_to_move(board)
         new_position = ask_for_notation('move')
-        selected_piece = board.positions[old_position[0]][old_position[1]]
       end
 
       # Move the piece and update itself on the board
@@ -94,21 +100,22 @@ class Player
       black_king = board.positions[rank][file]
 
       # End game if it is a checkmate
-      return if checkmate?(black_king, opponent)
+      checkmate?(black_king, opponent)
+
       # Prompt player to move the king
       puts "\n\e[1;36mCHECK!"
       puts "\e[1;36m#{@name}, move your King!\e[0m\n"
 
-      old_position = black_king.current_position
       new_position = ask_for_notation('move')
-      selected_piece = black_king
+      # Return and save game if user inputs 'save_game'
+      return 'save_game' if new_position == 'save_game'
 
       # Ask player for a valid move for the king
-      until move_allowed?(selected_piece, new_position)
+      until move_allowed?(black_king, new_position)
         puts "\n\e[1;31mMove is not allowed. Try again\e[0m"
-        # start_position = select_piece_to_move(board)
         new_position = ask_for_notation('move')
-        selected_piece = board.positions[old_position[0]][old_position[1]]
+        # Return and save game if user inputs 'save_game'
+        return 'save_game' if new_position == 'save_game'
       end
 
       # Move the piece and update itself on the board
@@ -121,11 +128,11 @@ class Player
 
   # Toggle @win = true if it is a checkmate + Output win message
   def checkmate?(king, opponent)
-    return unless king.next_moves == []
+    return false unless king.next_moves == []
 
     puts "\n\e[1;36mCHECKMATE!\e[0m\n"
     puts "\e[1;36m#{opponent.name} is the winner.\e[0m\n"
-    opponent.win = true
+    exit
   end
 
   # Remove player's own pawns en_passant vulnerability at the start of his turn
@@ -145,6 +152,9 @@ class Player
   def select_piece_to_move(board)
     # Repeatedly ask player until valid notation is entered
     position = ask_for_notation('select')
+    # Return and save game if user inputs "save_game"
+    return 'save_game' if position == 'save_game'
+
     notation = position_to_notation(position)
 
     # Loop until selection is valid and verified by player
@@ -163,6 +173,9 @@ class Player
 
       # Looped Actions
       position = ask_for_notation('select')
+      # Return and save game if user inputs "save_game"
+      return 'save_game' if position == 'save_game'
+
       notation = position_to_notation(position)
     end
 
@@ -173,11 +186,17 @@ class Player
   def ask_for_notation(action)
     puts "#{@name}, please select a piece to move (eg. A3): " if action == 'select'
     puts "#{@name}, where would you like to move the piece: " if action == 'move'
-    # Ask for move until a valid chess notation is selected
+
     notation = gets.chomp
+    # Return 'save_game' if player inputs 'save_game'
+    return 'save_game' if notation == 'save_game'
+
+    # Ask for move until a valid chess notation is selected
     until valid_notation?(notation)
       puts 'Invalid notation. Try again.'
       notation = gets.chomp
+      # Return 'save_game' if player inputs 'save_game'
+      return 'save_game' if notation == 'save_game'
     end
     # Convert and return notation as position array
     notation = notation.split('')

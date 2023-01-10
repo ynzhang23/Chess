@@ -7,8 +7,7 @@ require_relative 'rook'
 
 # Template and shared method for a Pawn
 class Pawn
-  attr_reader :symbol, :next_moves, :color
-  attr_accessor :current_position, :en_passant_vulnerable
+  attr_accessor :current_position, :en_passant_vulnerable, :symbol, :next_moves, :color
 
   def initialize(start_position, symbol, color)
     @symbol = symbol

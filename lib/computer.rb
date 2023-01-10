@@ -42,7 +42,6 @@ class Computer
   end
 
   def move_king_only(board, _black, _white)
-    binding.pry
     rank = board.king_position[@player_color.to_sym][0]
     file = board.king_position[@player_color.to_sym][1]
     king = board.positions[rank][file]

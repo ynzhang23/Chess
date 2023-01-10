@@ -26,3 +26,27 @@ Try it out: [https://replit.com/@ynzhang23/Chess?v=1]
 ### Check + Checkmate
 1. Through heavy testing, I was able to detect a loophole where the game missed out on pawn's diagonal takes as squares that are checked
 2. Apart from that, the checkmate/check process is smoother than I expected thanks to detailed instance variables.
+
+### Loading YAML
+1. The recent Ruby updates to Psych has prevented YAML from loading class: Symbol as well as unspecified classes. Aliases has to be set to true as well.
+```
+YAML.load_file(
+      "saves/#{filename}",
+      aliases: true,
+      permitted_classes: [
+        WhiteRook,
+        BlackRook,
+        WhiteKnight,
+        BlackKnight,
+        WhiteBishop,
+        BlackBishop,
+        WhiteQueen,
+        BlackQueen,
+        WhiteKing,
+        BlackKing,
+        WhitePawn,
+        BlackPawn,
+        Symbol
+      ]
+    )
+```

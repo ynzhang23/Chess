@@ -19,6 +19,7 @@ class Player
     @on_turn = false
     update_white_player_name if color == 'white'
     update_black_player_name if color == 'black'
+    @name = 'DRUNK_maCPUrthy' if color == 'computer'
   end
 
   def update_white_player_name

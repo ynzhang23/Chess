@@ -1,5 +1,5 @@
 # Chess
-Command line chess game which two players can play against each other.
+Command line chess game which two players can play against each other.  
 Try it out: [https://replit.com/@ynzhang23/Chess?v=1]
 
 ## Features
@@ -52,3 +52,5 @@ YAML.load_file(
       ]
     )
 ```
+## Future Improvements
+1. There are a few redundant method calls which updates the pieces' next_moves

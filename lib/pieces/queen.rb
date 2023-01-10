@@ -1,7 +1,5 @@
 # frozen-string-literal: true
 
-require 'pry-byebug'
-
 # Template and shared method for a Queen
 class Queen
   attr_accessor :current_position, :symbol, :next_moves, :color

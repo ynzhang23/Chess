@@ -1,7 +1,6 @@
-# frozen-string-literal
+# frozen-string-literal: true
 
 require 'yaml'
-require 'pry-byebug'
 
 require './lib/board'
 require './lib/player'

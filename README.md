@@ -56,3 +56,4 @@ YAML.load_file(
 ```
 ## Future Improvements
 1. There are a few redundant method calls which updates the pieces' next_moves
+2. Visual improvement of the chess board with checkered background

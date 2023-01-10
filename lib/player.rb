@@ -90,7 +90,7 @@ class Player
       end
 
       # Move the piece and update itself on the board
-      selected_piece.update_position(board, new_position, old_position)
+      white_king.update_position(board, new_position, white_king.current_position)
 
       # Refresh every piece's possible next_moves
       board.update_all_pieces_next_moves
@@ -119,7 +119,7 @@ class Player
       end
 
       # Move the piece and update itself on the board
-      selected_piece.update_position(board, new_position, old_position)
+      black_king.update_position(board, new_position, black_king.current_position)
 
       # Refresh every piece's possible next_moves
       board.update_all_pieces_next_moves
@@ -221,10 +221,10 @@ class Player
     return false if selected_piece.next_moves == []
 
     puts "\n\e[1;33m#{@name}, you have selected to move #{notation}'s #{selected_piece.symbol}.\e[1;0m"
-    puts "\e[1;32mPress any key to continue.\e[1;0m"
-    puts "\e[1;31mPress 'C' to reselect.\e[1;0m\n"
+    puts "\e[1;32mEnter any key to continue.\e[1;0m"
+    puts "\e[1;31mEnter 'C' to reselect.\e[1;0m\n"
 
-    response = $stdin.getch
+    response = gets.chomp
     return false if %w[C c].include?(response)
 
     true

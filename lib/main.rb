@@ -5,7 +5,7 @@ require './lib/player'
 require './lib/save'
 
 # White has to move king if it is in check, else move piece normally
-def self.white_move(white, black, board, save)
+def white_move(white, black, board, save)
   white.on_turn = false
   wk_position = board.king_position[:white]
   white_king = board.positions[wk_position[0]][wk_position[1]]
@@ -22,7 +22,7 @@ def self.white_move(white, black, board, save)
   end
 end
 
-def self.black_move(white, black, board, save)
+def black_move(white, black, board, save)
   black.on_turn = false
   # Black has to move king if it is in check, else move piece normally
   bk_position = board.king_position[:black]
@@ -40,14 +40,16 @@ def self.black_move(white, black, board, save)
   end
 end
 
-puts "
-██████╗██╗  ██╗███████╗███████╗███████╗
+puts "\e[1;35m
+ ██████╗██╗  ██╗███████╗███████╗███████╗
 ██╔════╝██║  ██║██╔════╝██╔════╝██╔════╝
 ██║     ███████║█████╗  ███████╗███████╗
 ██║     ██╔══██║██╔══╝  ╚════██║╚════██║
 ╚██████╗██║  ██║███████╗███████║███████║
  ╚═════╝╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝
-"
+\e[0m"
+puts "\n\e[1;35mYou may save the game by entering \e[1;33m'save_game'
+\e[1;35minto the terminal anytime during the turns.\e[0m"
 
 board = Board.new
 white = Player.new('white')

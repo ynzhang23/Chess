@@ -26,3 +26,6 @@ Try it out: [https://replit.com/@ynzhang23/Chess?v=1]
 ### Check + Checkmate
 1. Through heavy testing, I was able to detect a loophole where the game missed out on pawn's diagonal takes as squares that are checked
 2. Apart from that, the checkmate/check process is smoother than I expected thanks to detailed instance variables.
+
+## Future Improvements
+1. There are a few redundant method calls which updates the pieces' next_moves

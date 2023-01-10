@@ -20,6 +20,8 @@ class Save
     @data = {
       white_name: nil,
       black_name: nil,
+      white_on_turn: nil,
+      black_on_turn: nil,
       board: Array.new(8) { [] }
     }
   end
@@ -27,6 +29,7 @@ class Save
   # Save the game
   def save_game(board, white, black)
     save_name(white.name, black.name)
+    save_on_turn(white.on_turn, black.on_turn)
     save_board(board)
     # Set up file naming system
     Dir.mkdir('saves') unless Dir.exist?('saves')
@@ -44,6 +47,8 @@ class Save
 
     white.name = data[:white_name]
     black.name = data[:black_name]
+    white.on_turn = data[:white_on_turn]
+    black.on_turn = data[:black_on_turn]
     # data[:board] is an array starting from A1 to H7
     # Load each square on board with individual piece
     board.positions.map!.with_index do |rank, rank_index|
@@ -60,8 +65,8 @@ class Save
     # Remove the hidden files
     saves -= ['.', '..']
     if no_saves?(saves)
-      puts 'There are currently no save files.'
-      puts 'Please continue with current game.'
+      puts "\n\e[1;31mThere are currently no save files."
+      puts "Please continue with current game.\e[0m"
       return
     end
     filename = choose_save(saves)
@@ -118,6 +123,12 @@ class Save
   def save_name(white_name, black_name)
     @data[:white_name] = white_name
     @data[:black_name] = black_name
+  end
+
+  # Update who is to continue after loading save
+  def save_on_turn(white_on_turn, black_on_turn)
+    @data[:white_on_turn] = white_on_turn
+    @data[:black_on_turn] = black_on_turn
   end
 
   # Update @data[:board] with current board data

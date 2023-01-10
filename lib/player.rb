@@ -10,13 +10,13 @@ class Player
   RANK = ('a'..'h').to_a.concat(('A'..'H').to_a).freeze
   FILE = %w[1 2 3 4 5 6 7 8].freeze
 
-  attr_accessor :win, :name, :next_up
+  attr_accessor :win, :name, :on_turn
 
   def initialize(color)
     @name = nil
     @player_color = color
     @win = false
-    @next_up = false
+    @on_turn = false
     update_white_player_name if color == 'white'
     update_black_player_name if color == 'black'
   end
@@ -184,8 +184,8 @@ class Player
 
   # Repeat until player entered notation is correct, returns position array
   def ask_for_notation(action)
-    puts "#{@name}, please select a piece to move (eg. A3): " if action == 'select'
-    puts "#{@name}, where would you like to move the piece: " if action == 'move'
+    puts "\n#{@name}, please select a piece to move (eg. A3): " if action == 'select'
+    puts "\n#{@name}, where would you like to move the piece: " if action == 'move'
 
     notation = gets.chomp
     # Return 'save_game' if player inputs 'save_game'

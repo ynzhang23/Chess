@@ -1,18 +1,21 @@
 ---
-:white_name: James
-:black_name: Worthy
+:white_name: JAMES
+:black_name: JONES
+:white_on_turn: false
+:black_on_turn: false
 :board:
-- - "-"
-  - !ruby/object:WhiteKnight
-    symbol: "♘"
+- - !ruby/object:WhiteRook
+    symbol: "♖"
     color: white
     start_position: &1
     - 0
-    - 1
+    - 0
     current_position: *1
     next_moves:
-    - - 2
-      - 2
+    - - 0
+      - 1
+    moved: false
+  - "-"
   - !ruby/object:WhiteBishop
     symbol: "♗"
     color: white
@@ -67,80 +70,88 @@
     current_position: *7
     next_moves: []
     moved: false
-- - "-"
-  - !ruby/object:WhitePawn
+- - !ruby/object:WhitePawn
     symbol: "♙"
     color: white
     en_passant_vulnerable: false
     start_position: &8
     - 1
-    - 1
+    - 0
     current_position: *8
-    next_moves:
-    - - 2
-      - 1
-    - - 3
-      - 1
+    next_moves: []
   - !ruby/object:WhitePawn
     symbol: "♙"
     color: white
     en_passant_vulnerable: false
     start_position: &9
     - 1
-    - 2
+    - 1
     current_position: *9
     next_moves:
     - - 2
-      - 2
+      - 1
     - - 3
-      - 2
+      - 1
   - !ruby/object:WhitePawn
     symbol: "♙"
     color: white
     en_passant_vulnerable: false
     start_position: &10
     - 1
-    - 3
+    - 2
     current_position: *10
     next_moves:
     - - 2
-      - 3
+      - 2
     - - 3
-      - 3
+      - 2
   - !ruby/object:WhitePawn
     symbol: "♙"
     color: white
     en_passant_vulnerable: false
     start_position: &11
     - 1
-    - 4
+    - 3
     current_position: *11
     next_moves:
     - - 2
-      - 4
+      - 3
     - - 3
-      - 4
+      - 3
   - !ruby/object:WhitePawn
     symbol: "♙"
     color: white
     en_passant_vulnerable: false
     start_position: &12
     - 1
-    - 5
+    - 4
     current_position: *12
     next_moves:
     - - 2
-      - 5
+      - 4
     - - 3
-      - 5
+      - 4
   - !ruby/object:WhitePawn
     symbol: "♙"
     color: white
     en_passant_vulnerable: false
     start_position: &13
     - 1
-    - 6
+    - 5
     current_position: *13
+    next_moves:
+    - - 2
+      - 5
+    - - 3
+      - 5
+  - !ruby/object:WhitePawn
+    symbol: "♙"
+    color: white
+    en_passant_vulnerable: false
+    start_position: &14
+    - 1
+    - 6
+    current_position: *14
     next_moves:
     - - 2
       - 6
@@ -150,64 +161,31 @@
     symbol: "♙"
     color: white
     en_passant_vulnerable: false
-    start_position: &14
+    start_position: &15
     - 1
     - 7
-    current_position: *14
+    current_position: *15
     next_moves:
     - - 2
       - 7
     - - 3
       - 7
-- - !ruby/object:WhiteRook
-    symbol: "♖"
+- - !ruby/object:WhiteKnight
+    symbol: "♘"
     color: white
     start_position:
     - 0
-    - 0
+    - 1
     current_position:
     - 2
     - 0
     next_moves:
-    - - 1
-      - 0
-    - - 0
-      - 0
-    - - 2
+    - - 4
       - 1
-    - - 2
+    - - 3
       - 2
-    - - 2
-      - 3
-    - - 2
-      - 4
-    - - 2
-      - 5
-    - - 2
-      - 6
-    - - 2
-      - 7
-    moved: true
-  - "-"
-  - "-"
-  - "-"
-  - "-"
-  - "-"
-  - "-"
-  - "-"
-- - !ruby/object:WhitePawn
-    symbol: "♙"
-    color: white
-    en_passant_vulnerable: false
-    start_position:
-    - 1
-    - 0
-    current_position:
-    - 3
-    - 0
-    next_moves:
-    - - 4
-      - 0
+    - - 0
+      - 1
   - "-"
   - "-"
   - "-"
@@ -225,26 +203,15 @@
   - "-"
 - - "-"
   - "-"
-  - !ruby/object:BlackKnight
-    symbol: "♞"
-    color: black
-    start_position:
-    - 7
-    - 1
-    current_position:
-    - 5
-    - 2
-    next_moves:
-    - - 4
-      - 4
-    - - 3
-      - 3
-    - - 3
-      - 1
-    - - 4
-      - 0
-    - - 7
-      - 1
+  - "-"
+  - "-"
+  - "-"
+  - "-"
+  - "-"
+  - "-"
+- - "-"
+  - "-"
+  - "-"
   - "-"
   - "-"
   - "-"
@@ -254,84 +221,88 @@
     symbol: "♟︎"
     color: black
     en_passant_vulnerable: false
-    start_position: &15
-    - 6
-    - 0
-    current_position: *15
-    next_moves:
-    - - 5
-      - 0
-    - - 4
-      - 0
-  - !ruby/object:BlackPawn
-    symbol: "♟︎"
-    color: black
-    en_passant_vulnerable: false
     start_position: &16
     - 6
-    - 1
+    - 0
     current_position: *16
     next_moves:
     - - 5
-      - 1
+      - 0
     - - 4
-      - 1
+      - 0
   - !ruby/object:BlackPawn
     symbol: "♟︎"
     color: black
     en_passant_vulnerable: false
     start_position: &17
     - 6
-    - 2
+    - 1
     current_position: *17
-    next_moves: []
+    next_moves:
+    - - 5
+      - 1
+    - - 4
+      - 1
   - !ruby/object:BlackPawn
     symbol: "♟︎"
     color: black
     en_passant_vulnerable: false
     start_position: &18
     - 6
-    - 3
+    - 2
     current_position: *18
     next_moves:
     - - 5
-      - 3
+      - 2
     - - 4
-      - 3
+      - 2
   - !ruby/object:BlackPawn
     symbol: "♟︎"
     color: black
     en_passant_vulnerable: false
     start_position: &19
     - 6
-    - 4
+    - 3
     current_position: *19
     next_moves:
     - - 5
-      - 4
+      - 3
     - - 4
-      - 4
+      - 3
   - !ruby/object:BlackPawn
     symbol: "♟︎"
     color: black
     en_passant_vulnerable: false
     start_position: &20
     - 6
-    - 5
+    - 4
     current_position: *20
     next_moves:
     - - 5
-      - 5
+      - 4
     - - 4
-      - 5
+      - 4
   - !ruby/object:BlackPawn
     symbol: "♟︎"
     color: black
     en_passant_vulnerable: false
     start_position: &21
     - 6
-    - 6
+    - 5
     current_position: *21
+    next_moves:
+    - - 5
+      - 5
+    - - 4
+      - 5
+  - !ruby/object:BlackPawn
+    symbol: "♟︎"
+    color: black
+    en_passant_vulnerable: false
+    start_position: &22
+    - 6
+    - 6
+    current_position: *22
     next_moves:
     - - 5
       - 6
@@ -341,10 +312,10 @@
     symbol: "♟︎"
     color: black
     en_passant_vulnerable: false
-    start_position: &22
+    start_position: &23
     - 6
     - 7
-    current_position: *22
+    current_position: *23
     next_moves:
     - - 5
       - 7
@@ -353,55 +324,64 @@
 - - !ruby/object:BlackRook
     symbol: "♜"
     color: black
-    start_position: &23
+    start_position: &24
     - 7
     - 0
-    current_position: *23
-    next_moves:
-    - - 7
-      - 1
+    current_position: *24
+    next_moves: []
     moved: false
-  - "-"
+  - !ruby/object:BlackKnight
+    symbol: "♞"
+    color: black
+    start_position: &25
+    - 7
+    - 1
+    current_position: *25
+    next_moves:
+    - - 5
+      - 2
+    - - 5
+      - 0
   - !ruby/object:BlackBishop
     symbol: "♝"
     color: black
-    start_position: &24
+    start_position: &26
     - 7
     - 2
-    current_position: *24
+    current_position: *26
     next_moves: []
   - !ruby/object:BlackQueen
     symbol: "♛"
     color: black
-    start_position: &25
+    start_position: &27
     - 7
     - 3
-    current_position: *25
+    current_position: *27
     next_moves: []
   - !ruby/object:BlackKing
     symbol: "♚"
     color: black
-    start_position: &26
+    start_position: &28
     - 7
     - 4
-    current_position: *26
+    current_position: *28
     next_moves: []
     moved: false
   - !ruby/object:BlackBishop
     symbol: "♝"
     color: black
-    start_position: &27
+    start_position: &29
     - 7
     - 5
-    current_position: *27
+    current_position: *29
     next_moves: []
   - !ruby/object:BlackKnight
     symbol: "♞"
     color: black
-    start_position: &28
+    start_position: &30
     - 7
     - 6
-    current_position: *28
+    current_position: *30
     next_moves:
     - - 5
       - 7
@@ -410,9 +390,9 @@
   - !ruby/object:BlackRook
     symbol: "♜"
     color: black
-    start_position: &29
+    start_position: &31
     - 7
     - 7
-    current_position: *29
+    current_position: *31
     next_moves: []
     moved: false
